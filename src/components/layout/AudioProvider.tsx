@@ -1,3 +1,5 @@
+// src/components/layout/AudioProvider.tsx
+
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import SortingHat from '@/components/sorting-hat/SortingHat';
 import MobileContainer from '@/components/layout/MobileContainer';
 import { AudioProvider } from '@/components/layout/AudioProvider';
+import Image from 'next/image'
 
 export default function Home() {
   const [isTalking, setIsTalking] = useState(false);
@@ -17,7 +18,7 @@ export default function Home() {
           {/* Harry Potter Title */}
           <div className="text-center space-y-4">
             <h1 className="heading-primary text-4xl mb-2">
-              Harry Potter
+              <Image src='/images/image.png' alt='' width={500} height={500} />
             </h1>
             <h2 className="heading-secondary text-2xl">
               Sorting Hat
@@ -28,7 +29,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Sorting Hat */}
-          <div className="py-8" >
+          <div className="py-8">
             <SortingHat 
               size="large"
               isAnimating={true}
@@ -38,7 +39,7 @@ export default function Home() {
           </div>
 
           {/* Test Controls */}
-          <div className="space-y-4 w-full max-w-xs">
+          <div className="space-y-4 w-1/2 max-w-">
             <button
               onClick={() => setIsTalking(!isTalking)}
               className="magical-button w-full text-center"
