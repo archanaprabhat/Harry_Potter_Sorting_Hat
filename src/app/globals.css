@@ -38,12 +38,6 @@ html {
 }
 
 body {
-  background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--magical-blue) 50%,
-    #0A0F1C 100%
-  );
   min-height: 100vh;
   color: white;
   overflow-x: hidden;

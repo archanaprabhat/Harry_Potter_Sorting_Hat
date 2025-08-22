@@ -12,11 +12,11 @@ interface MobileContainerProps {
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-purple-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-gradient-to-b from-[#2D1B69] via-[#0E1F3C] to-[#0A0F1C] flex items-center justify-center p-4">
       {/* Desktop: Centered mobile view */}
       <div className="w-full max-w-sm mx-auto">
         <motion.div
-          className={`mobile-container relative bg-gradient-to-b from-purple-900/80 via-blue-900/80 to-slate-900/80 
+          className={`mobile-container relative bg-gradient-to-b from-[#2D1B69]/80 via-[#0E1F3C]/80 to-[#0A0F1C]/80 
                      backdrop-blur-sm border border-yellow-500/20 rounded-3xl overflow-hidden shadow-2xl ${className}`}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}

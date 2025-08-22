@@ -28,7 +28,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Sorting Hat */}
-          <div className="py-8">
+          <div className="py-8" >
             <SortingHat 
               size="large"
               isAnimating={true}
