@@ -1,5 +1,3 @@
-// src/app/page.tsx
-
 'use client';
 
 import { useState } from 'react';
@@ -14,13 +12,12 @@ export default function Home() {
   return (
     <AudioProvider>
       <MobileContainer>
-        <div className="p-8 flex flex-col items-center min-h-screen justify-center space-y-8">
+        {/* Remove justify-center and use flex-col with space-y for proper spacing */}
+        <div className="px-8 py-16 flex flex-col items-center min-h-screen space-y-12">
           {/* Harry Potter Title */}
-          <div className="text-center space-y-4">
-            <h1 className="heading-primary text-4xl mb-2">
-              <Image src='/images/image.png' alt='' width={500} height={500} />
-            </h1>
-            <h2 className="heading-secondary text-2xl">
+          <div className="text-center space-y-6">
+            <Image src='/images/image.png' alt='' width={500} height={500} className='mx-auto' />
+            <h2 className="heading-secondary text-2xl !mb-6">
               Sorting Hat
             </h2>
             <p className="body-text text-center opacity-90">
@@ -28,8 +25,8 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Enhanced Sorting Hat */}
-          <div className="py-8">
+          {/* Enhanced Sorting Hat with explicit margin */}
+          <div className="py-12 mt-8">
             <SortingHat 
               size="large"
               isAnimating={true}
@@ -38,8 +35,8 @@ export default function Home() {
             />
           </div>
 
-          {/* Test Controls */}
-          <div className="space-y-4 w-1/2 max-w-">
+          {/* Test Controls with margin-top */}
+          <div className="space-y-6 w-1/2 max-w-xs mt-12">
             <button
               onClick={() => setIsTalking(!isTalking)}
               className="magical-button w-full text-center"
@@ -53,7 +50,7 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <div className="text-center mt-8">
+          <div className="text-center mt-auto pt-8">
             <p className="text-sm opacity-60">
               ⚡ Magical Experience ⚡
             </p>

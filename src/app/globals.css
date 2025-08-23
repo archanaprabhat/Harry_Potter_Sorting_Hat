@@ -163,6 +163,8 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
 }
 
 .magical-button:hover {
@@ -247,4 +249,5 @@ body {
     overflow: hidden;
     border: 1px solid rgba(212, 175, 55, 0.2);
   }
+  
 }
