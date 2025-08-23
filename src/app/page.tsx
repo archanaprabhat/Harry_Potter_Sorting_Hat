@@ -14,49 +14,41 @@ export default function Home() {
   return (
     <AudioProvider>
       <MobileContainer>
-        <div className="p-8 flex flex-col items-center min-h-screen justify-center space-y-8">
-          {/* Harry Potter Title */}
-          <div className="text-center space-y-4">
-            <h1 className="heading-primary text-4xl mb-2">
-              <Image src='/images/image.png' alt='' width={500} height={500} />
-            </h1>
-            <h2 className="heading-secondary text-2xl">
-              Sorting Hat
-            </h2>
-            <p className="body-text text-center opacity-90">
-              Discover your true house ceremony
-            </p>
+        <div className="px-8 py-12 flex flex-col items-center min-h-screen justify-between">
+          {/* Top spacer */}
+          <div className="flex-shrink-0"></div>
+          
+          {/* Content */}
+          <div className="flex flex-col items-center space-y-8">
+            {/* Harry Potter Title */}
+            <div className="text-center">
+              <h1 className="heading-primary mb-1">
+                <Image src='/images/image.png' alt='Harry Potter' width={230} height={75} className="mx-auto" />
+              </h1>
+              <h2 className="heading-secondary text-lg mb-1">
+                Sorting Hat
+              </h2>
+              <p className="body-text text-sm opacity-75 leading-tight">
+                Discover your true house ceremony
+              </p>
+            </div>
+
+            {/* Enhanced Sorting Hat */}
+            <div className="py-4">
+              <SortingHat 
+                size="large"
+                isAnimating={true}
+                isTalking={isTalking}
+                showGlow={true}
+              />
+            </div>
           </div>
 
-          {/* Enhanced Sorting Hat */}
-          <div className="py-8">
-            <SortingHat 
-              size="large"
-              isAnimating={true}
-              isTalking={isTalking}
-              showGlow={true}
-            />
-          </div>
-
-          {/* Test Controls */}
-          <div className="space-y-4 w-1/2 max-w-">
-            <button
-              onClick={() => setIsTalking(!isTalking)}
-              className="magical-button w-full text-center"
-            >
-              {isTalking ? 'Stop Talking' : 'Make Hat Talk'}
-            </button>
-            
+          {/* Main Action Button */}
+          <div className="w-full px-4 flex-shrink-0">
             <button className="magical-button w-full text-center">
               Begin Your Sorting Ceremony
             </button>
-          </div>
-
-          {/* Footer */}
-          <div className="text-center mt-8">
-            <p className="text-sm opacity-60">
-              ⚡ Magical Experience ⚡
-            </p>
           </div>
         </div>
       </MobileContainer>

@@ -154,8 +154,8 @@ body {
 .magical-button {
   background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
   border: 2px solid var(--gold);
-  border-radius: 25px;
-  padding: 12px 24px;
+  border-radius: 30px;
+  padding: 14px 28px;
   font-family: 'Cinzel', serif;
   font-weight: 600;
   color: var(--deep-purple);
@@ -163,6 +163,8 @@ body {
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
 }
 
 .magical-button:hover {
