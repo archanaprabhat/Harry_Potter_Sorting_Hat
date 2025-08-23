@@ -36,12 +36,7 @@ html {
 }
 
 body {
-  background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--magical-blue) 50%,
-    #2c354a 100%
-  );
+  background: var(--deep-purple);
   min-height: 100vh;
   color: white;
   overflow-x: hidden;
@@ -150,19 +145,23 @@ body {
   }
 }
 
-/* Button Styles */
+/* Button Styles - Updated to match design exactly */
 .magical-button {
-  background: linear-gradient(135deg, var(--gold) 0%, var(--bronze) 100%);
-  border: 2px solid var(--gold);
+  background: linear-gradient(90deg, #E0A85A 0%, #C28B4A 100%);
+  border: none;
   border-radius: 25px;
-  padding: 12px 24px;
+  padding: 16px 32px;
   font-family: 'Cinzel', serif;
   font-weight: 600;
+  font-size: 1rem;
   color: var(--deep-purple);
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .magical-button:hover {
@@ -236,9 +235,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: 
-      linear-gradient(135deg, var(--deep-purple) 0%, var(--magical-blue) 100%),
-      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background: var(--deep-purple);
   }
   
   .mobile-container {
