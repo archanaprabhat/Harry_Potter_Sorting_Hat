@@ -12,7 +12,7 @@ interface MobileContainerProps {
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-purple-900 via-blue-900 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full  flex items-center justify-center p-4 ">
       {/* Desktop: Centered mobile view */}
       <div className="w-full max-w-sm mx-auto">
         <motion.div

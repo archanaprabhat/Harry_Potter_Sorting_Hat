@@ -6,10 +6,10 @@
 
 :root {
   /* Harry Potter Color Palette */
-  --gold: #D4AF37;
+  --gold: #EFE8CA;
   --bronze: #CD7F32;
-  --deep-purple: #2D1B69;
-  --magical-blue: #0E1F3C;
+  --deep-purple: #191124;
+  --magical-blue: #2F1C39;
   --parchment: #F4E4BC;
   --dark-wood: #3C2A17;
   
@@ -40,7 +40,7 @@ body {
     135deg,
     var(--deep-purple) 0%,
     var(--magical-blue) 50%,
-    #0A0F1C 100%
+    #2c354a 100%
   );
   min-height: 100vh;
   color: white;

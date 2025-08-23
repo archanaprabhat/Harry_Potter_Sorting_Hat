@@ -72,7 +72,7 @@ export default function SortingHat({
         <motion.div 
           className="absolute inset-0 bg-yellow-400/20 rounded-full blur-xl"
           animate={{ 
-            scale: [1, 2, 1],
+            scale: [1.8, 1, 1.8],
             opacity: [3, 6, 3]
           }}
           transition={{ 
