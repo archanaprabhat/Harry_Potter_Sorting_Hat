@@ -72,8 +72,8 @@ export default function SortingHat({
         <motion.div 
           className="absolute inset-0 bg-yellow-400/20 rounded-full blur-xl"
           animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3]
+            scale: [1, 2, 1],
+            opacity: [3, 6, 3]
           }}
           transition={{ 
             duration: 3,
@@ -87,11 +87,11 @@ export default function SortingHat({
       <motion.div
         className={`relative ${sizeClasses[size]} mx-auto`}
         animate={isAnimating ? {
-          y: [0, -8, 0],
-          rotate: [0, 1, -1, 0]
+          y: [0, -20, 20, 0],
+          rotate: [6, 10, -10, 6]
         } : {}}
         transition={{
-          duration: 4,
+          duration: 3,
           repeat: Infinity,
           ease: "easeInOut"
         }}

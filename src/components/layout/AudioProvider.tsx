@@ -40,7 +40,7 @@ export function AudioProvider({ children }: AudioProviderProps) {
         // Background music
         const bgMusic = new Audio('/audio/hogwarts-theme.mp3');
         bgMusic.loop = true;
-        bgMusic.volume = 0.3;
+        bgMusic.volume = 1;
 
         // Sound effects
         const sounds = {
