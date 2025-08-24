@@ -1,5 +1,3 @@
-// src/components/layout/MobileContainer.tsx
-
 'use client';
 
 import { ReactNode } from 'react';
@@ -12,28 +10,52 @@ interface MobileContainerProps {
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
   return (
-    <div className="min-h-screen w-full  flex items-center justify-center p-4 ">
-      {/* Desktop: Centered mobile view */}
-      <div className="w-full max-w-sm mx-auto">
+    <>
+      {/* Mobile: Full screen, no container, no rounded corners */}
+      <div className="md:hidden min-h-screen w-full">
         <motion.div
-          className={`mobile-container relative bg-gradient-to-b from-purple-900/80 via-blue-900/80 to-slate-900/80 
-                     backdrop-blur-sm border border-yellow-500/20 rounded-3xl overflow-hidden shadow-2xl ${className}`}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
+          className={`relative h-screen w-full ${className}`}
+          style={{
+            background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* Magical border glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-transparent to-yellow-400/10 
-                          animate-pulse pointer-events-none" />
-          
           {/* Content */}
-          <div className="relative z-10">
+          <div className="relative z-10 h-full">
             <AnimatePresence mode="wait">
               {children}
             </AnimatePresence>
           </div>
         </motion.div>
       </div>
-    </div>
+
+      {/* Desktop: Centered container with NO rounded corners */}
+      <div className="hidden md:flex min-h-screen w-full items-center justify-center p-4">
+        <div className="w-full max-w-sm mx-auto h-screen">
+          <motion.div
+            className={`mobile-container relative h-full w-full border border-yellow-500/20 shadow-2xl ${className}`}
+            style={{
+              background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`
+            }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            {/* Magical border glow effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-transparent to-yellow-400/10 
+                            animate-pulse pointer-events-none" />
+            
+            {/* Content */}
+            <div className="relative z-10 h-full">
+              <AnimatePresence mode="wait">
+                {children}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </>
   );
 }

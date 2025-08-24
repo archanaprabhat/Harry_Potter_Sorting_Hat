@@ -12,49 +12,60 @@ export default function Home() {
   return (
     <AudioProvider>
       <MobileContainer>
-        {/* Remove justify-center and use flex-col with space-y for proper spacing */}
-        <div className="px-8 py-16 flex flex-col items-center min-h-screen space-y-12">
-          {/* Harry Potter Title */}
-          <div className="text-center space-y-6">
-            <Image src='/images/image.png' alt='' width={500} height={500} className='mx-auto' />
-            <h2 className="heading-secondary text-2xl !mb-6">
+        <div className="h-screen flex flex-col px-6 py-6">
+          
+          {/* Top Section - Harry Potter Title */}
+          <div className="flex-none text-center">
+            <div className="mb-4">
+              <Image 
+                src='/images/image.png' 
+                alt='Harry Potter Logo' 
+                width={280} 
+                height={120} 
+                className='mx-auto block' 
+              />
+            </div>
+            
+            <h2 className="heading-secondary text-2xl mb-2 text-center">
               Sorting Hat
             </h2>
-            <p className="body-text text-center opacity-90">
+            <p className="body-text text-center opacity-90 text-sm">
               Discover your true house ceremony
             </p>
           </div>
 
-          {/* Enhanced Sorting Hat with explicit margin */}
-          <div className="py-12 mt-8">
+          {/* Middle Section - Sorting Hat */}
+          <div className="flex-1 flex items-center justify-center py-8">
             <SortingHat 
               size="large"
               isAnimating={true}
-              isTalking={isTalking}
+              isTalking={false} // Commented out isTalking functionality
               showGlow={true}
             />
           </div>
 
-          {/* Test Controls with margin-top */}
-          <div className="space-y-6 w-1/2 max-w-xs mt-12">
+          {/* Bottom Section - Single Button */}
+          <div className="flex-none">
+            {/* COMMENTED OUT: Make Hat Talk Button and Logic
             <button
               onClick={() => setIsTalking(!isTalking)}
-              className="magical-button w-full text-center"
+              className="magical-button w-full text-center py-3 mb-4"
             >
               {isTalking ? 'Stop Talking' : 'Make Hat Talk'}
             </button>
+            */}
             
-            <button className="magical-button w-full text-center">
+            <button className="magical-button w-full text-center py-3 mb-4">
               Begin Your Sorting Ceremony
             </button>
+
+            <div className="text-center">
+              <p className="text-xs opacity-60">
+                ⚡ Magical Experience ⚡
+              </p>
+            </div>
           </div>
 
-          {/* Footer */}
-          <div className="text-center mt-auto pt-8">
-            <p className="text-sm opacity-60">
-              ⚡ Magical Experience ⚡
-            </p>
-          </div>
         </div>
       </MobileContainer>
     </AudioProvider>

@@ -49,7 +49,7 @@ body {
 
 /* Mobile-first design - only mobile view */
 .mobile-container {
-  max-width: 390px;
+  max-width: 480px;
   margin: 0 auto;
   min-height: 100vh;
   position: relative;
