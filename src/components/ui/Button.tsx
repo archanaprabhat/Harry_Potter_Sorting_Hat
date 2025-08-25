@@ -10,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
+  style?: React.CSSProperties;
 }
 
 export default function Button({
@@ -20,7 +21,8 @@ export default function Button({
   fullWidth = false,
   disabled = false,
   className = '',
-  type = 'button'
+  type = 'button',
+  style = {}
 }: ButtonProps) {
   
   // Base styles that all buttons share
@@ -102,7 +104,8 @@ export default function Button({
                 value
               ];
             })
-        )
+        ),
+        ...style
       }}
     >
       {/* Shimmer effect */}
