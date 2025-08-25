@@ -1,13 +1,20 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import SortingHat from '@/components/sorting-hat/SortingHat';
 import MobileContainer from '@/components/layout/MobileContainer';
 import { AudioProvider } from '@/components/layout/AudioProvider';
-import Image from 'next/image'
+import Button from '@/components/ui/Button';
+import Image from 'next/image';
 
 export default function Home() {
   const [isTalking, setIsTalking] = useState(false);
+  const router = useRouter();
+
+  const handleBeginCeremony = () => {
+    router.push('/name-entry');
+  };
 
   return (
     <AudioProvider>
@@ -39,26 +46,30 @@ export default function Home() {
 
           {/* Middle Section - Sorting Hat */}
           <div className="flex-1 flex items-center justify-center">
-            
-              <SortingHat 
-                size="large"
-                isAnimating={true}
-                isTalking={false}
-                showGlow={true}
-              />
+            <SortingHat 
+              size="large"
+              isAnimating={true}
+              isTalking={false}
+              showGlow={true}
+            />
           </div>
 
           {/* Bottom Section - Button and Text */}
           <div className="flex-none" style={{ paddingBottom: '40px', paddingLeft: '24px', paddingRight: '24px' }}>
-            {/* Main Button */}
-            <button className="magical-button-full">
+            {/* Main Button - Now using reusable Button component */}
+            <Button
+              onClick={handleBeginCeremony}
+              variant="primary"
+              size="large"
+              fullWidth={true}
+            >
               Begin Your Sorting Ceremony
-            </button>
+            </Button>
 
             {/* Bottom Text */}
             <div className="text-center" style={{ marginTop: '20px' }}>
               <p className="magical-text">
-              🪄Experience Magic🪄
+                🪄Experience Magic🪄
               </p>
             </div>
           </div>
