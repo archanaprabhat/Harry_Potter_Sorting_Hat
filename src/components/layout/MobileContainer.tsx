@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface MobileContainerProps {
@@ -9,46 +9,89 @@ interface MobileContainerProps {
 }
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
+  
+  // Prevent scrolling on mount
+  useEffect(() => {
+    // Lock body scroll
+    document.body.style.overflow = 'hidden';
+    document.body.style.height = '100vh';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.documentElement.style.overflow = 'hidden';
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.height = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, []);
+
   return (
     <>
-      {/* Mobile: Full screen, no container, no rounded corners */}
-      <div className="md:hidden min-h-screen w-full">
-        <motion.div
-          className={`relative h-screen w-full ${className}`}
+      {/* Mobile: Full screen container */}
+      <div className="md:hidden">
+        <div 
+          className={`fixed inset-0 w-full h-full ${className}`}
           style={{
-            background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`
+            height: '100vh',
+            height: '100dvh', // Dynamic viewport height
+            background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`,
+            overflow: 'hidden'
           }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          {/* Content */}
-          <div className="relative z-10 h-full">
+          <motion.div
+            className="relative h-full w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <AnimatePresence mode="wait">
               {children}
             </AnimatePresence>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Desktop: Centered container with NO rounded corners */}
-      <div className="hidden md:flex min-h-screen w-full items-center justify-center p-4">
-        <div className="w-full max-w-sm mx-auto h-screen">
+      {/* Desktop: Centered iPhone-like container */}
+      <div className="hidden md:block">
+        <div className="fixed inset-0 flex items-center justify-center p-4">
           <motion.div
-            className={`mobile-container relative h-full w-full border border-yellow-500/20 shadow-2xl ${className}`}
+            className={`relative ${className}`}
             style={{
-              background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`
+              width: '430px', // iPhone 14 Pro Max width
+              height: '932px', // iPhone 14 Pro Max height
+              maxHeight: '95vh', // Ensure it fits in viewport
+              background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`,
+              borderRadius: '25px',
+              border: '1px solid rgba(212, 175, 55, 0.2)',
+              boxShadow: '0 0 50px rgba(0, 0, 0, 0.8)',
+              overflow: 'hidden'
             }}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             {/* Magical border glow effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 via-transparent to-yellow-400/10 
-                            animate-pulse pointer-events-none" />
+            <motion.div 
+              className="absolute inset-0 rounded-[25px] pointer-events-none"
+              style={{
+                background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1), transparent, rgba(212, 175, 55, 0.1))'
+              }}
+              animate={{
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
             
             {/* Content */}
-            <div className="relative z-10 h-full">
+            <div className="relative z-10 h-full overflow-hidden">
               <AnimatePresence mode="wait">
                 {children}
               </AnimatePresence>

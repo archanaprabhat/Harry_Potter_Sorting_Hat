@@ -1,11 +1,9 @@
 /* src/app/globals.css */
 
 @import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  
   --gold: #EFE8CA;
   --bronze: #CD7F32;
   --deep-purple: #191124;
@@ -13,7 +11,7 @@
   --parchment: #F4E4BC;
   --dark-wood: #3C2A17;
   
-  /* House Colors - KEEPING for future pages */
+  /* House Colors */
   --gryffindor: #7C0A02;
   --gryffindor-gold: #D4AF37;
   --slytherin: #1A472A;
@@ -24,6 +22,31 @@
   --ravenclaw-bronze: #946B2D;
 }
 
+
+html {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  height: 100%;
+  overflow: hidden; /* Prevent any scrolling */
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    var(--deep-purple) 0%,
+    var(--magical-blue) 50%,
+    #2c354a 100%
+  );
+  height: 100vh;
+  height: 100dvh; /* Use dynamic viewport height for mobile */
+  width: 100vw;
+  overflow: hidden;
+  position: fixed; /* Prevent any scrolling whatsoever */
+  top: 0;
+  left: 0;
+}
+
+/* Utility classes */
 @layer utilities {
   .text-parchment {
     color: #F4E4BC !important;
@@ -34,42 +57,42 @@
   .text-bronze {
     color: #CD7F32 !important;
   }
+  
+  /* No scroll class for containers */
+  .no-scroll {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    position: relative;
+  }
 }
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
-
-html {
-  font-family: 'Inter', sans-serif;
-  scroll-behavior: smooth;
-}
-
-body {
-  background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--magical-blue) 50%,
-    #2c354a 100%
-  );
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow: hidden !important;
-}
-
-/* Mobile Container - USED in MobileContainer.tsx */
+/* Mobile Container Styles */
 .mobile-container {
-  max-width: 480px;
-  margin: 0 auto;
+  width: 100vw;
   height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  margin: 0;
   position: relative;
   background: inherit;
+  overflow: hidden;
 }
 
-/* Desktop Centering - NECESSARY for responsive design */
+/* Desktop Centering */
 @media (min-width: 768px) {
+  .mobile-container {
+    max-width: 430px; /* iPhone 14 Pro Max width */
+    height: 932px; /* iPhone 14 Pro Max height */
+    margin: 0 auto;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
   body {
     display: flex;
     justify-content: center;
@@ -78,11 +101,29 @@ body {
       linear-gradient(135deg, var(--deep-purple) 0%, var(--magical-blue) 100%),
       url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
+}
 
-  .mobile-container {
-    box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(212, 175, 55, 0.2);
-  }
+/* Parchment background styles for themed elements */
+.parchment-bg {
+  background: 
+    radial-gradient(ellipse at center, #f4e4bc 0%, #e8d5a3 50%, #d4c19c 100%);
+  border: 3px solid var(--bronze);
+  box-shadow: 
+    inset 0 0 20px rgba(139, 69, 19, 0.1),
+    0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.parchment-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 24px,
+      rgba(139, 69, 19, 0.1) 25px
+    );
+  pointer-events: none;
 }
