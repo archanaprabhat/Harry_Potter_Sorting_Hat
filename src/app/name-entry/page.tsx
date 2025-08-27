@@ -98,21 +98,13 @@ function QuillInput({ value, onChange, onKeyPress, disabled, error }) {
     <div className="relative">
       {/* Quill icon */}
       <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-amber-700">
-          <path
-            d="M20.94 2.06c-1.39-1.39-3.64-1.39-5.03 0l-.88.88 5.03 5.03.88-.88c1.39-1.39 1.39-3.64 0-5.03zM4.5 17.5l8.5-8.5 5 5L9.5 22.5H4.5v-5z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            fill="currentColor"
-            opacity="0.8"
-          />
-        </svg>
+      🪶 
       </div>
       
       {/* Input field */}
       <input
         type="text"
-        placeholder="Write your name with the quill..."
+        placeholder="Etch your name with magic ink"
         value={value}
         onChange={onChange}
         onKeyPress={onKeyPress}
