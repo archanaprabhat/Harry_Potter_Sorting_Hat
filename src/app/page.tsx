@@ -7,6 +7,7 @@ import MobileContainer from '@/components/layout/MobileContainer';
 import { AudioProvider } from '@/components/layout/AudioProvider';
 import Button from '@/components/ui/Button';
 import Image from 'next/image';
+import { HeadingSecondary, BodyText, MagicalText } from '@/components/ui/Typography';
 
 export default function Home() {
   const [isTalking, setIsTalking] = useState(false);
@@ -19,58 +20,42 @@ export default function Home() {
   return (
     <AudioProvider>
       <MobileContainer>
-        <div className="h-screen flex flex-col">
+        <div className="h-screen flex flex-col justify-evenly">
           
-          {/* Top Section - Harry Potter Title */}
-          <div className="flex-none text-center" style={{ paddingTop: '60px' }}>
+          {/* Top Section */}
+          <div className="flex-none text-center pt-[60px]">
             <div className="flex justify-center items-center mb-4">
               <Image 
                 src='/images/image.png' 
                 alt='Harry Potter Logo' 
                 width={320} 
                 height={140} 
-                className='object-contain max-w-full h-auto' 
-                style={{
-                  filter: 'drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.8))'
-                }}
+                className='object-contain max-w-full h-auto drop-shadow-lg' 
               />
             </div>
             
-            <h2 className="heading-secondary text-center" style={{ marginBottom: '8px' }}>
-              Sorting Hat
-            </h2>
-            <p className="body-text text-center">
-              Discover your true house ceremony
-            </p>
+            <HeadingSecondary>Sorting Hat</HeadingSecondary>
+            <BodyText>Discover your true house ceremony</BodyText>
           </div>
 
-          {/* Middle Section - Sorting Hat */}
+          {/* Middle Section */}
           <div className="flex-1 flex items-center justify-center">
-            <SortingHat 
-              size="large"
-              isAnimating={true}
-              isTalking={false}
-              showGlow={true}
-            />
+            <SortingHat size="large" isAnimating={true} isTalking={false} showGlow={true} />
           </div>
 
-          {/* Bottom Section - Button and Text */}
-          <div className="flex-none" style={{ paddingBottom: '40px', paddingLeft: '24px', paddingRight: '24px' }}>
-            {/* Main Button - Now using reusable Button component */}
+          {/* Bottom Section */}
+          <div className="flex-none pb-10 px-6 mx-auto">
             <Button
               onClick={handleBeginCeremony}
               variant="primary"
               size="large"
-              fullWidth={true}
+              fullWidth={false}
             >
               Begin Your Sorting Ceremony
             </Button>
 
-            {/* Bottom Text */}
-            <div className="text-center" style={{ marginTop: '20px' }}>
-              <p className="magical-text">
-                🪄Experience Magic🪄
-              </p>
+            <div className="text-center mb-5 mt-5">
+              <MagicalText>🪄Experience Magic🪄</MagicalText>
             </div>
           </div>
 
