@@ -6,6 +6,8 @@ import SortingHat from '@/components/sorting-hat/SortingHat';
 import MobileContainer from '@/components/layout/MobileContainer';
 import { AudioProvider } from '@/components/layout/AudioProvider';
 import { useAudio } from '@/components/layout/AudioProvider';
+import { useSetUserName, useUserName } from '@/lib/store'; // Import Zustand hooks
+import Image from 'next/image';
 
 // Audio Control Component
 function AudioControls() {
@@ -16,11 +18,10 @@ function AudioControls() {
       {/* Time Turner Button */}
       <button
         onClick={() => window.history.back()}
-        title="Go Back (Time-Turner)"
+        title="Time-Turner"
         className="flex items-center justify-center w-12 h-12 rounded-full 
-                   bg-gradient-to-br from-purple-300/10 to-purple-900
-                   backdrop-blur-sm border border-yellow-600/20
-                   shadow-lg hover:scale-105 transition-all duration-300
+                   bg-gradient-to-br from-purple-300/10 to-purple-900 border border-yellow-600/20
+                    hover:scale-105 transition-all duration-300
                    hover:from-yellow-200/30 hover:to-yellow-400/20"
       >
         <span className="text-2xl">⏳</span>
@@ -29,11 +30,11 @@ function AudioControls() {
       {/* Audio Toggle */}
       <button
         onClick={toggleBackgroundMusic}
-        title={audioState.backgroundMusic ? "Mute Audio" : "Unmute Audio"}
+        title={audioState.backgroundMusic ? "🪄 Silencio" : "🔮 Sonorus"}
         className="flex items-center justify-center w-12 h-12 rounded-full 
                    bg-gradient-to-br  from-purple-300/10 to-purple-900
-                   backdrop-blur-sm border border-gray-600
-                   shadow-lg hover:scale-105 transition-all duration-300
+                    border border-gray-600
+                   hover:scale-105 transition-all duration-300
                    hover:from-gray-500 hover:to-gray-500/20"
       >
         <span className="text-xl">
@@ -47,48 +48,9 @@ function AudioControls() {
 // Parchment Container Component
 function ParchmentContainer({ children, className = "" }) {
   return (
-    <div className={`parchment-bg rounded-lg p-6 mx-4 ${className}`}>     
+    <div className={`parchment-bg rounded-e-full p-6 mx-4 ${className}`}>     
       {children}
     </div>
-  );
-}
-
-// Wax Seal Button Component
-function WaxSealButton({ onClick, disabled, isLoading }) {
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className="relative mx-auto block"
-      title="Press the seal to begin"
-    >
-      <div className={`
-        relative w-24 h-24 rounded-full transition-all duration-300
-        ${disabled 
-          ? 'bg-gradient-to-br from-red-800 to-red-900 opacity-50 cursor-not-allowed' 
-          : 'bg-gradient-to-br from-red-600 to-red-800 hover:scale-105 hover:shadow-xl cursor-pointer'
-        }
-        border-4 border-red-900 shadow-lg
-      `}>
-        {/* Wax texture */}
-       
-        
-        {/* Hogwarts crest impression */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-16 h-16 rounded-full bg-red-900/50 flex items-center justify-center">
-            <span className="text-yellow-200 text-2xl font-bold">H</span>
-          </div>
-        </div>
-        
-        {/* Loading spinner */}
-        {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-8 h-8 border-2 border-yellow-200/30 border-t-yellow-200 rounded-full animate-spin"></div>
-          </div>
-        )}
-      </div>
-    </button>
-    
   );
 }
 
@@ -128,15 +90,7 @@ function QuillInput({ value, onChange, onKeyPress, disabled, error }) {
       
       {/* Magical sparkles */}
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-        <div className="flex space-x-1">
-          {[...Array(3)].map((_, i) => (
-            <div
-              key={i}
-              className="w-1 h-1 bg-yellow-400 rounded-full animate-pulse"
-              style={{ animationDelay: `${i * 200}ms` }}
-            />
-          ))}
-        </div>
+      𓅓
       </div>
     </div>
   );
@@ -147,6 +101,11 @@ function NameEntryContent() {
   const [nameInput, setNameInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  
+  // ZUSTAND state and actions (persistent, shared across components)
+  const storedUserName = useUserName(); // Get the current stored name
+  const setUserName = useSetUserName(); // Get the action to update the name
+  
   const router = useRouter();
 
   const validateName = (name) => {
@@ -171,9 +130,12 @@ function NameEntryContent() {
     setIsSubmitting(true);
     
     try {
-      // Simulate saving name
-      localStorage.setItem('sortingHatUserName', nameInput.trim());
+      // STORE IN ZUSTAND (this will automatically persist to localStorage)
+      setUserName(nameInput.trim());
+      
+      // Simulate some processing time
       await new Promise(resolve => setTimeout(resolve, 1200));
+      
       router.push('/quiz');
     } catch (err) {
       setError('The magic seems to have failed. Please try again.');
@@ -193,23 +155,28 @@ function NameEntryContent() {
     setNameInput(e.target.value);
     if (error) setError('');
   };
-
   return (
     <div className="no-scroll flex flex-col">
       {/* Audio Controls */}
       <AudioControls />
 
+      {/* Display stored name if exists */}
+      {storedUserName && (
+        <div className="absolute top-4 right-4 bg-green-100 border border-green-400 rounded px-3 py-1 z-40">
+          <p className="text-green-800 text-sm">
+            Welcome back, {storedUserName}!
+          </p>
+        </div>
+      )}
+
       {/* Sorting Hat */}
-      <div className="flex-none pt-16 pb-6">
-        <div className="flex justify-center">
-          <div className="w-[180px] h-[220px]">
-            <SortingHat 
-              size="medium"
-              isAnimating={true}
-              isTalking={nameInput.length > 2}
-              showGlow={true}
-            />
-          </div>
+      <div className=" pb-16">
+        <div className="flex justify-center ">
+          <SortingHat 
+            size="medium"
+            isAnimating={true}
+            showGlow={true}
+          />
         </div>
       </div>
 
@@ -248,23 +215,31 @@ function NameEntryContent() {
 
         {/* Wax Seal Button */}
         <div className="mb-6">
-          <WaxSealButton
+          <button
             onClick={handleSubmit}
             disabled={isSubmitting || !nameInput.trim()}
-            isLoading={isSubmitting}
-          />
+            className="relative mx-auto block"
+            title="Cast the seal to begin"
+          >
+            <Image
+              src="/images/hogwarts_logo.png"
+              alt="Hogwarts Seal"
+              width={96}
+              height={96}
+              className={`
+                transition-all duration-300
+                ${isSubmitting || !nameInput.trim() 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:scale-105 cursor-pointer'
+                }
+              `}
+            />
+            </button>
           <p className="text-center mt-3 text-amber-200 text-sm font-serif">
-            {isSubmitting ? 'Preparing the ancient ceremony...' : 'Press the Hogwarts seal to begin'}
+            {isSubmitting ? 'Storing your name in the Book of Admittance...' : 'Press the Hogwarts seal to begin'}
           </p>
+          
         </div>
-
-        {/* Helper Text */}
-        <div className="text-center">
-          <p className="text-amber-300/70 text-xs font-serif tracking-wide">
-            Press Enter or the seal to continue your magical journey
-          </p>
-        </div>
-
       </div>
     </div>
   );
