@@ -1,6 +1,6 @@
+// src/app/page.tsx
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import SortingHat from '@/components/sorting-hat/SortingHat';
 import MobileContainer from '@/components/layout/MobileContainer';
@@ -10,9 +10,9 @@ import Image from 'next/image';
 import { HeadingSecondary, BodyText, MagicalText } from '@/components/ui/Typography';
 
 export default function Home() {
-  const [isTalking, setIsTalking] = useState(false);
   const router = useRouter();
 
+  // Navigate to the name entry screen when user starts ceremony
   const handleBeginCeremony = () => {
     router.push('/name-entry');
   };
@@ -20,17 +20,18 @@ export default function Home() {
   return (
     <AudioProvider>
       <MobileContainer>
+        {/* Full-screen layout: divided into header, hat area, and footer */}
         <div className="h-screen flex flex-col justify-evenly">
           
-          {/* Top Section */}
-          <div className="flex-none text-center pt-[60px]">
+          {/* Header: Harry Potter logo + intro text */}
+          <div className="text-center pt-[60px]">
             <div className="flex justify-center items-center mb-4">
               <Image 
-                src='/images/image.png' 
-                alt='Harry Potter Logo' 
+                src="/images/image.png" 
+                alt="Harry Potter Logo" 
                 width={320} 
                 height={140} 
-                className='object-contain max-w-full h-auto drop-shadow-lg' 
+                className="max-w-full h-auto" 
               />
             </div>
             
@@ -38,13 +39,13 @@ export default function Home() {
             <BodyText>Discover your true house ceremony</BodyText>
           </div>
 
-          {/* Middle Section */}
+          {/* Centerpiece: animated Sorting Hat (floating + glow effect) */}
           <div className="flex-1 flex items-center justify-center">
-            <SortingHat size="large" isAnimating={true} isTalking={false} showGlow={true} />
+            <SortingHat size="large" isAnimating={true} showGlow={true} />
           </div>
 
-          {/* Bottom Section */}
-          <div className="flex-none pb-10 px-6 mx-auto">
+          {/* Footer: Start button + magical text */}
+          <div className="pb-10 px-6 mx-auto">
             <Button
               onClick={handleBeginCeremony}
               variant="primary"
@@ -55,7 +56,7 @@ export default function Home() {
             </Button>
 
             <div className="text-center mb-5 mt-5">
-              <MagicalText>🪄Experience Magic🪄</MagicalText>
+              <MagicalText>🪄 Experience Magic 🪄</MagicalText>
             </div>
           </div>
 
