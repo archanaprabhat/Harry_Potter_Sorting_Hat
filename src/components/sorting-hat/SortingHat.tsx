@@ -1,65 +1,25 @@
 // src/components/sorting-hat/SortingHat.tsx
 'use client';
+
 import Image from 'next/image';
-
-
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { HatAnimationState } from '@/types';
 
 interface SortingHatProps {
-  size?: 'small' | 'medium' | 'large';
-  isAnimating?: boolean;
-  isTalking?: boolean;
-  className?: string;
-  showGlow?: boolean;
+  size?: 'small' | 'medium' | 'large'; // control hat dimensions
+  isAnimating?: boolean;              // toggle floating animation
+  className?: string;                 // allow parent to pass extra styles
+  showGlow?: boolean;                 // toggle magical purple glow
 }
 
+
 export default function SortingHat({ 
-  size = 'large', 
-  isAnimating = true, 
-  isTalking = false,
+  size = 'large',
+  isAnimating = true,
   className = '',
   showGlow = true
 }: SortingHatProps) {
-  const [hatState, setHatState] = useState<HatAnimationState>({
-    isBlinking: false,
-    isTalking: false,
-    isFloating: true,
-    mouthPosition: 'closed',
-    eyeState: 'open'
-  });
 
-  // Auto-blinking effect
-  useEffect(() => {
-    const blinkInterval = setInterval(() => {
-      if (!isTalking) {
-        setHatState(prev => ({ ...prev, isBlinking: true }));
-        setTimeout(() => {
-          setHatState(prev => ({ ...prev, isBlinking: false }));
-        }, 150);
-      }
-    }, Math.random() * 3000 + 2000); // Random blink every 2-5 seconds
-
-    return () => clearInterval(blinkInterval);
-  }, [isTalking]);
-
-  // Talking animation
-  useEffect(() => {
-    if (isTalking) {
-      const talkInterval = setInterval(() => {
-        setHatState(prev => ({
-          ...prev,
-          mouthPosition: prev.mouthPosition === 'closed' ? 'open' : 'closed'
-        }));
-      }, 200);
-
-      return () => clearInterval(talkInterval);
-    } else {
-      setHatState(prev => ({ ...prev, mouthPosition: 'closed' }));
-    }
-  }, [isTalking]);
-
+  // Tailwind-based sizing for different use cases
   const sizeClasses = {
     small: 'w-20 h-24',
     medium: 'w-32 h-40',
@@ -68,41 +28,34 @@ export default function SortingHat({
 
   return (
     <div className={`relative mt-15 ${className}`}>
-      {/* Magical glow effect */}
+      
+      {/* Magical purple glow aura behind the hat */}
       {showGlow && (
         <motion.div 
-          className="absolute inset-0 bg-purple-500/15 rounded-full blur-xl "
-          animate={{ 
-            scale: [1.8, 1, 1.8],
-            opacity: [3, 6, 3]
-          }}
-          transition={{ 
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+          className="absolute inset-0 bg-purple-500/15 rounded-full blur-xl"
+          animate={{ scale: [1.8, 1, 1.8], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         />
       )}
 
-      {/* Hat Container */}
+      {/* Hat container with optional floating/bobbing motion */}
       <motion.div
         className={`relative ${sizeClasses[size]} mx-auto`}
         animate={isAnimating ? {
-          y: [0,20,0,-20,0],
-          x: [0,10,0,-20,0],
-          rotate: [6, 10, -10, 6]
+          y: [0, 20, 0, -20, 0],    // up/down motion
+          x: [0, 10, 0, -10, 0],    // side sway
+          rotate: [6, 10, -10, 6]   // subtle tilt
         } : {}}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        {/* Hat SVG */}
-        <Image src="/images/sorting-hat.png" alt='' width={300} height={300}>
-
-        </Image>
-
+        {/* Hat image (static PNG) */}
+        <Image 
+          src="/images/sorting-hat.png" 
+          alt="Sorting Hat" 
+          width={300} 
+          height={300} 
+          priority
+        />
       </motion.div>
     </div>
   );
