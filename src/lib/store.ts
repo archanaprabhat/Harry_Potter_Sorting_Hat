@@ -2,112 +2,117 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-// Define the shape of our application state
+/**
+ * Global state for the Harry Potter Sorting Hat app.
+ * We persist essentials so refreshes don't wipe the quiz.
+ */
 interface AppState {
-  // User data
+  // Who is taking the quiz
   userName: string;
-  
-  // Quiz data
+
+  // Where the user is in the 10-question flow (0-based)
   currentQuestionIndex: number;
+
+  // For each answered question, store the selected option's index (0..3)
   quizAnswers: number[];
-  
-  // Results data
+
+  // Final result after scoring
   sortedHouse: 'gryffindor' | 'slytherin' | 'hufflepuff' | 'ravenclaw' | null;
-  
-  // Actions for updating state
+
+  // Actions (called from components)
   setUserName: (name: string) => void;
   addQuizAnswer: (answerIndex: number) => void;
   nextQuestion: () => void;
   setSortedHouse: (house: 'gryffindor' | 'slytherin' | 'hufflepuff' | 'ravenclaw') => void;
   resetQuiz: () => void;
-  resetAll: () => void;
 }
 
-// Create the Zustand store with persistence
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      // Initial state
+      // --- Initial state ---
       userName: '',
       currentQuestionIndex: 0,
       quizAnswers: [],
       sortedHouse: null,
 
-      // Actions - these are the functions components can call to update state
+      /**
+       * Save/overwrite the user's name from the Name Entry page.
+       */
       setUserName: (name: string) => {
         set({ userName: name.trim() });
       },
 
+      /**
+       * Record the selected option for the current question.
+       * We append the option index to the answers array.
+       * (E.g., if Q1 picked option #2, we push 2.)
+       */
       addQuizAnswer: (answerIndex: number) => {
-        const currentAnswers = get().quizAnswers;
-        set({ 
-          quizAnswers: [...currentAnswers, answerIndex] 
-        });
+        const current = get().quizAnswers;
+        set({ quizAnswers: [...current, answerIndex] });
       },
 
+      /**
+       * Advance to the next question (used by Next button or after selecting an option).
+       */
       nextQuestion: () => {
-        const currentIndex = get().currentQuestionIndex;
-        set({ 
-          currentQuestionIndex: currentIndex + 1 
-        });
+        set({ currentQuestionIndex: get().currentQuestionIndex + 1 });
       },
 
+      /**
+       * Store the final computed house so the Results page can render it.
+       */
       setSortedHouse: (house) => {
         set({ sortedHouse: house });
       },
 
-      // Reset just the quiz data (keep the name)
+      /**
+       * Replay the quiz with the same name.
+       * Clears progress + answers + result.
+       */
       resetQuiz: () => {
-        set({
-          currentQuestionIndex: 0,
-          quizAnswers: [],
-          sortedHouse: null
-        });
+        set({ currentQuestionIndex: 0, quizAnswers: [], sortedHouse: null });
       },
-
-      // Reset everything (for starting completely over)
-      resetAll: () => {
-        set({
-          userName: '',
-          currentQuestionIndex: 0,
-          quizAnswers: [],
-          sortedHouse: null
-        });
-      }
     }),
     {
-      name: 'harry-potter-sorting', // Key in localStorage
-      // Only persist certain fields (not temporary UI state)
+      name: 'harry-potter-sorting', // localStorage key
+      // Persist only meaningful data for this app.
       partialize: (state) => ({
         userName: state.userName,
-        quizAnswers: state.quizAnswers,
         currentQuestionIndex: state.currentQuestionIndex,
-        sortedHouse: state.sortedHouse
-      })
+        quizAnswers: state.quizAnswers,
+        sortedHouse: state.sortedHouse,
+      }),
     }
   )
 );
 
-// Custom hooks for commonly used state selections
-// This prevents unnecessary re-renders by only subscribing to specific parts of the store
+/* ---------- Selectors (read values) ---------- */
+/** Read just the userName (component re-renders only if userName changes). */
+export const useUserName = () => useAppStore((s) => s.userName);
 
-export const useUserName = () => useAppStore(state => state.userName);
-export const useQuizState = () => useAppStore(state => ({
-  currentQuestionIndex: state.currentQuestionIndex,
-  quizAnswers: state.quizAnswers,
-  totalAnswers: state.quizAnswers.length
-}));
-export const useSortedHouse = () => useAppStore(state => state.sortedHouse);
+/** Read the current question pointer (0..9). */
+export const useCurrentQuestionIndex = () => useAppStore((s) => s.currentQuestionIndex);
 
-// Action hooks - separate from state for cleaner component code
-export const useAppActions = () => {
-    const setUserName = useAppStore(state => state.setUserName);
-    const addQuizAnswer = useAppStore(state => state.addQuizAnswer);
-    const nextQuestion = useAppStore(state => state.nextQuestion);
-    const setSortedHouse = useAppStore(state => state.setSortedHouse);
-    const resetQuiz = useAppStore(state => state.resetQuiz);
-    const resetAll = useAppStore(state => state.resetAll);
-  
-    return { setUserName, addQuizAnswer, nextQuestion, setSortedHouse, resetQuiz, resetAll };
-  };
-  
+/** Read the list of selected option indices so far. */
+export const useQuizAnswers = () => useAppStore((s) => s.quizAnswers);
+
+/** Read the final result, if computed. */
+export const useSortedHouse = () => useAppStore((s) => s.sortedHouse);
+
+/* ---------- Action hooks (call functions) ---------- */
+/** Get the function that writes userName. */
+export const useSetUserName = () => useAppStore((s) => s.setUserName);
+
+/** Get the function that appends an answer for the current question. */
+export const useAddQuizAnswer = () => useAppStore((s) => s.addQuizAnswer);
+
+/** Get the function that advances the quiz index. */
+export const useNextQuestion = () => useAppStore((s) => s.nextQuestion);
+
+/** Get the function that writes the final house result. */
+export const useSetSortedHouse = () => useAppStore((s) => s.setSortedHouse);
+
+/** Get the function that resets progress but keeps the name. */
+export const useResetQuiz = () => useAppStore((s) => s.resetQuiz);
