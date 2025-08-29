@@ -37,7 +37,6 @@ export default function MobileContainer({ children, className = '' }: MobileCont
           className={`fixed inset-0 w-full h-full ${className}`}
           style={{
             height: '100vh',
-            height: '100dvh', // Dynamic viewport height
             background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`,
             overflow: 'hidden'
           }}

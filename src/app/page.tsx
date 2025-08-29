@@ -4,7 +4,6 @@
 import { useRouter } from 'next/navigation';
 import SortingHat from '@/components/sorting-hat/SortingHat';
 import MobileContainer from '@/components/layout/MobileContainer';
-import { AudioProvider } from '@/components/layout/AudioProvider';
 import Button from '@/components/ui/Button';
 import Image from 'next/image';
 import { HeadingSecondary, BodyText, MagicalText } from '@/components/ui/Typography';
@@ -18,7 +17,6 @@ export default function Home() {
   };
 
   return (
-    <AudioProvider>
       <MobileContainer>
         {/* Full-screen layout: divided into header, hat area, and footer */}
         <div className="h-screen flex flex-col justify-evenly">
@@ -62,6 +60,5 @@ export default function Home() {
 
         </div>
       </MobileContainer>
-    </AudioProvider>
   );
 }

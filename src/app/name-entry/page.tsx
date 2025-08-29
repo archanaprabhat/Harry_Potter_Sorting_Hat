@@ -8,7 +8,6 @@ import Image from "next/image";
 // Components
 import SortingHat from "@/components/sorting-hat/SortingHat";
 import MobileContainer from "@/components/layout/MobileContainer";
-import { AudioProvider } from "@/components/layout/AudioProvider";
 import GlobalControls from "@/components/layout/GlobalControls";
 
 // Zustand store hooks
@@ -261,10 +260,8 @@ function NameEntryContent() {
 
 export default function NameEntryPage() {
   return (
-    <AudioProvider>
       <MobileContainer>
         <NameEntryContent />
       </MobileContainer>
-    </AudioProvider>
   );
 }

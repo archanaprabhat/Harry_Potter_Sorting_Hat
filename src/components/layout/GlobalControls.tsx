@@ -11,7 +11,7 @@ import { useAudio } from "@/components/layout/AudioProvider";
  *   1. Time-Turner (back button → uses browser history)
  *   2. Background Music Toggle (Sonorus / Silencio)
  *
- * This sits top-left of the screen, styled as floating round buttons.
+ * Top-left floating buttons.
  */
 export default function GlobalControls() {
   const { audioState, toggleBackgroundMusic } = useAudio();
@@ -30,10 +30,10 @@ export default function GlobalControls() {
         <span className="text-2xl">⏳</span>
       </button>
 
-      {/* Audio toggle: Sonorus (on) / Silencio (off) */}
+      {/* Background music toggle */}
       <button
         onClick={toggleBackgroundMusic}
-        title={audioState.backgroundMusic ? "🪄 Silencio" : "🔮 Sonorus"}
+        title={audioState.backgroundMusic ? "🪄 Silencio (mute)" : "🔮 Sonorus (play)"}
         className="flex items-center justify-center w-12 h-12 rounded-full 
                    bg-gradient-to-br from-purple-300/10 to-purple-900 border border-gray-600
                    hover:scale-105 transition-all duration-300
