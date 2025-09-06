@@ -219,78 +219,6 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 }
 
 /**
- * House Percentage Breakdown
- */
-function HouseBreakdown({ answers }: { answers: number[] }) {
-  const percentages = calculateHousePercentages(answers);
-  const sortedHouses = Object.entries(percentages).sort(([,a], [,b]) => b - a);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 2 }}
-      className="mb-6 px-4"
-    >
-      <h3 className="text-lg font-bold text-amber-200 mb-3 text-center">Your House Affinities</h3>
-      
-      <div className="space-y-3">
-        {sortedHouses.map(([house, percentage], index) => {
-          const houseInfo = getHouseInfo(house as keyof typeof HOUSES);
-          const isTopHouse = index === 0;
-          
-          return (
-            <motion.div
-              key={house}
-              className="relative"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 2.2 + index * 0.1 }}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm font-medium text-amber-100 capitalize">
-                  {houseInfo.name}
-                </span>
-                <span className="text-sm font-bold text-amber-300">
-                  {percentage}%
-                </span>
-              </div>
-              
-              <div className="w-full bg-amber-900/30 rounded-full h-2 overflow-hidden">
-                <motion.div
-                  className="h-full rounded-full relative"
-                  style={{
-                    background: `linear-gradient(90deg, ${houseInfo.colors[0]}, ${houseInfo.colors[1]})`,
-                    width: `${percentage}%`
-                  }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${percentage}%` }}
-                  transition={{ duration: 1, delay: 2.4 + index * 0.1 }}
-                >
-                  {isTopHouse && (
-                    <motion.div
-                      className="absolute inset-0 bg-white/30"
-                      animate={{
-                        opacity: [0.3, 0.8, 0.3]
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  )}
-                </motion.div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    </motion.div>
-  );
-}
-
-/**
  * Action Buttons
  */
 function ActionButtons({ house }: { house: string }) {
@@ -309,7 +237,7 @@ function ActionButtons({ house }: { house: string }) {
     >
       <Button
         onClick={handleShare}
-        variant="outline"
+        variant="primary"
         size="large"
         fullWidth
       >
@@ -408,10 +336,7 @@ function ResultsContent() {
             >
               Congratulations, {userName}!
             </h2>
-            <p className="text-amber-100 text-sm">
-              The Sorting Hat has made its decision...
-            </p>
-          </motion.div>
+          
 
           {/* House crest */}
           <HouseCrest house={sortedHouse} />
@@ -419,13 +344,11 @@ function ResultsContent() {
           {/* House information */}
           <HouseInfo house={sortedHouse} />
 
-          {/* House breakdown */}
-          <HouseBreakdown answers={quizAnswers} />
-
           {/* Action buttons */}
           <ActionButtons house={sortedHouse} />
           
           {/* Bottom spacer */}
+          </motion.div>
           <div className="h-6"></div>
         </div>
       </div>
