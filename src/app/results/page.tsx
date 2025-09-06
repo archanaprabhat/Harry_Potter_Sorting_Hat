@@ -11,7 +11,6 @@ import MobileContainer from "@/components/layout/MobileContainer";
 import GlobalControls from "@/components/layout/GlobalControls";
 import StarField from "@/components/effects/StarField";
 import Button from "@/components/ui/Button";
-import ParchmentScroll from "@/components/ui/ParchmentScroll";
 
 // Store & Data
 import { useUserName, useSortedHouse, useQuizAnswers, useResetQuiz } from "@/lib/store";
@@ -34,11 +33,11 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
         ease: "easeOut",
         delay: 0.5 
       }}
-      className="relative flex justify-center mb-4"
+      className="relative flex justify-center mb-4 "
     >
       {/* Glowing background effect */}
       <motion.div
-        className="absolute inset-0 rounded-full"
+        className="absolute inset-0 rounded-full "
         style={{
           background: `radial-gradient(circle, ${houseInfo.colors[0]}40 0%, transparent 70%)`,
           filter: 'blur(20px)',
@@ -58,14 +57,14 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
       {/* House logo */}
       <motion.div
         className="relative z-10"
-        whileHover={{ scale: 1.05, rotate: 5 }}
+        whileHover={{ scale: 1.10}}
         transition={{ duration: 0.3 }}
       >
         <Image
           src={logoPath}
           alt={`${houseInfo.name} crest`}
-          width={120}
-          height={120}
+          width={220}
+          height={220}
           className="drop-shadow-2xl"
         />
       </motion.div>
@@ -74,7 +73,7 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
       {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute w-2 h-2 rounded-full"
+          className="absolute w-2 h-2 rounded-full "
           style={{
             background: houseInfo.colors[1],
             left: `${50 + Math.cos(i * 60 * Math.PI / 180) * 80}%`,
@@ -171,7 +170,7 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 
       {/* House details */}
       <motion.div
-        className="grid grid-cols-2 gap-4 text-xs sm:text-sm"
+        className="flex justify-evenly gap-4 text-xs sm:text-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.8 }}
@@ -187,10 +186,6 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
         <div className="text-center">
           <p className="text-amber-300 font-semibold">Animal</p>
           <p className="text-amber-100">{houseInfo.animal}</p>
-        </div>
-        <div className="text-center">
-          <p className="text-amber-300 font-semibold">Colors</p>
-          <p className="text-amber-100">{houseInfo.colors.join(' & ')}</p>
         </div>
       </motion.div>
     </motion.div>
