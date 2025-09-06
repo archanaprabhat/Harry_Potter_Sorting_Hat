@@ -10,8 +10,17 @@ interface ProgressBarProps {
 }
 
 // Yellow sparkle system matching the reference code
+interface Sparkle {
+  id: string;
+  x: number;
+  y: number;
+  size: number;
+  delay: number;
+  duration: number;
+}
+
 const YellowSparkles = ({ isActive }: { isActive: boolean }) => {
-  const [sparkles, setSparkles] = useState<any[]>([]);
+  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
   
   useEffect(() => {
     if (!isActive) return;
