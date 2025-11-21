@@ -1,7 +1,7 @@
 // src/app/results/page.tsx
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -11,37 +11,14 @@ import MobileContainer from "@/components/layout/MobileContainer";
 import GlobalControls from "@/components/layout/GlobalControls";
 import StarField from "@/components/effects/StarField";
 import Button from "@/components/ui/Button";
+import ShareModal from "@/components/ShareModal";
 
 // Store & Data
 import { useUserName, useSortedHouse, useQuizAnswers } from "@/lib/store";
 import { getHouseInfo, calculateHousePercentages } from "@/lib/sorting-logic";
 import { HOUSES } from "@/lib/quiz-data";
 
-// Social sharing functionality
-const shareToSocialMedia = (house: string) => {
-  const houseInfo = getHouseInfo(house as keyof typeof HOUSES);
-  const shareText = `I just got sorted into ${houseInfo.name}! 🏰✨ The Sorting Hat has spoken! #HarryPotter #SortingHat #${houseInfo.name}`;
-  const shareUrl = window.location.href;
-  
-  // Web Share API (modern browsers)
-  if (navigator.share) {
-    navigator.share({
-      title: `I'm a ${houseInfo.name}!`,
-      text: shareText,
-      url: shareUrl,
-    }).catch(console.error);
-    return;
-  }
-  
-  // Fallback: Copy to clipboard
-  const shareData = `${shareText}\n\n${shareUrl}`;
-  navigator.clipboard.writeText(shareData).then(() => {
-    alert('Results copied to clipboard! You can now paste it anywhere you want to share.');
-  }).catch(() => {
-    // Final fallback: show share text
-    prompt('Copy this text to share your results:', shareData);
-  });
-};
+
 
 /**
  * House Crest Component with magical animations
@@ -54,10 +31,10 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
     <motion.div
       initial={{ scale: 0, rotate: -180 }}
       animate={{ scale: 1, rotate: 0 }}
-      transition={{ 
-        duration: 1.2, 
+      transition={{
+        duration: 1.2,
         ease: "easeOut",
-        delay: 0.5 
+        delay: 0.5
       }}
       className="relative flex justify-center mb-4 "
     >
@@ -79,11 +56,11 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
           ease: "easeInOut"
         }}
       />
-      
+
       {/* House logo */}
       <motion.div
         className="relative z-10"
-        whileHover={{ scale: 1.10}}
+        whileHover={{ scale: 1.10 }}
         transition={{ duration: 0.3 }}
       >
         <Image
@@ -94,7 +71,7 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
           className="drop-shadow-2xl"
         />
       </motion.div>
-      
+
       {/* Floating particles around the crest */}
       {[...Array(6)].map((_, i) => (
         <motion.div
@@ -221,12 +198,8 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 /**
  * Action Buttons
  */
-function ActionButtons({ house }: { house: string }) {
+function ActionButtons({ house, onShareClick }: { house: string; onShareClick: () => void }) {
   const router = useRouter();
-
-  const handleShare = () => {
-    shareToSocialMedia(house);
-  };
 
   return (
     <motion.div
@@ -236,14 +209,14 @@ function ActionButtons({ house }: { house: string }) {
       transition={{ duration: 0.8, delay: 2.5 }}
     >
       <Button
-        onClick={handleShare}
+        onClick={onShareClick}
         variant="primary"
         size="large"
         fullWidth
       >
         🪄 Share your results
       </Button>
-      
+
       <Button
         onClick={() => router.push('/')}
         variant="outline"
@@ -264,6 +237,7 @@ function ResultsContent() {
   const userName = useUserName();
   const sortedHouse = useSortedHouse();
   const quizAnswers = useQuizAnswers();
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Redirect if no results
   useEffect(() => {
@@ -292,32 +266,38 @@ function ResultsContent() {
   const primaryColor = houseInfo.colors[0];
   const secondaryColor = houseInfo.colors[1];
 
+  // Share data
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareTitle = `I'm a ${houseInfo.name}!`;
+  const shareDescription = `I just got sorted into ${houseInfo.name}! 🏰✨ The Sorting Hat has spoken!`;
+  const shareHashtags = ['HarryPotter', 'SortingHat', houseInfo.name];
+
   return (
-    <div 
+    <div
       className="h-full flex flex-col overflow-hidden relative"
       style={{
         background: `linear-gradient(135deg, ${primaryColor}15 0%, ${secondaryColor}20 50%, ${primaryColor}15 100%)`,
       }}
     >
       {/* Dynamic background overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-30"
         style={{
           background: `radial-gradient(circle at 30% 20%, ${primaryColor}40 0%, transparent 50%), 
                       radial-gradient(circle at 70% 80%, ${secondaryColor}30 0%, transparent 50%)`,
         }}
       />
-      
+
       {/* Background effects */}
       <StarField />
-      
+
       {/* Global controls */}
       <GlobalControls />
-      
+
       {/* Main content with proper spacing to avoid overlap with controls */}
       <div className="flex-1 overflow-y-auto">
         <div className="min-h-full flex flex-col py-6 pt-20 px-4">
-          
+
           {/* Congratulations message with proper spacing */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -325,7 +305,7 @@ function ResultsContent() {
             transition={{ duration: 0.8 }}
             className="text-center mb-4"
           >
-            <h2 
+            <h2
               className="text-xl sm:text-2xl font-bold mb-2 font-serif"
               style={{
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
@@ -336,22 +316,32 @@ function ResultsContent() {
             >
               Congratulations, {userName}!
             </h2>
-          
 
-          {/* House crest */}
-          <HouseCrest house={sortedHouse} />
 
-          {/* House information */}
-          <HouseInfo house={sortedHouse} />
+            {/* House crest */}
+            <HouseCrest house={sortedHouse} />
 
-          {/* Action buttons */}
-          <ActionButtons house={sortedHouse} />
-          
-          {/* Bottom spacer */}
+            {/* House information */}
+            <HouseInfo house={sortedHouse} />
+
+            {/* Action buttons */}
+            <ActionButtons house={sortedHouse} onShareClick={() => setIsShareModalOpen(true)} />
+
+            {/* Bottom spacer */}
           </motion.div>
           <div className="h-6"></div>
         </div>
       </div>
+
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        shareUrl={shareUrl}
+        title={shareTitle}
+        description={shareDescription}
+        hashtags={shareHashtags}
+      />
     </div>
   );
 }
