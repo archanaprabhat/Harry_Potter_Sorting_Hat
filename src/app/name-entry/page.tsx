@@ -11,7 +11,7 @@ import MobileContainer from "@/components/layout/MobileContainer";
 import GlobalControls from "@/components/layout/GlobalControls";
 
 // Zustand store hooks
-import { useSetUserName, useUserName } from "@/lib/store";
+import { useSetUserName } from "@/lib/store";
 
 /* -------------------------------------------------------------------------- */
 /*                              Helper Components                             */
@@ -74,10 +74,9 @@ function QuillInput({
           border-2 transition-all duration-300
           font-serif text-lg text-amber-900
           placeholder-amber-600/70
-          ${
-            error
-              ? "border-red-500 shadow-red-200"
-              : "border-amber-400 focus:border-amber-600 focus:shadow-amber-200"
+          ${error
+            ? "border-red-500 shadow-red-200"
+            : "border-amber-400 focus:border-amber-600 focus:shadow-amber-200"
           }
           focus:shadow-lg focus:outline-none
           ${disabled ? "opacity-50 cursor-not-allowed" : ""}
@@ -103,7 +102,7 @@ function NameEntryContent() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const storedUserName = useUserName(); // Persistent name from Zustand
+
   const setUserName = useSetUserName(); // Action to update Zustand state
 
   const router = useRouter();
@@ -234,10 +233,9 @@ function NameEntryContent() {
               height={96}
               className={`
                 transition-all duration-300
-                ${
-                  isSubmitting || !nameInput.trim()
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:scale-105 cursor-pointer"
+                ${isSubmitting || !nameInput.trim()
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:scale-105 cursor-pointer"
                 }
               `}
             />
@@ -260,8 +258,8 @@ function NameEntryContent() {
 
 export default function NameEntryPage() {
   return (
-      <MobileContainer>
-        <NameEntryContent />
-      </MobileContainer>
+    <MobileContainer>
+      <NameEntryContent />
+    </MobileContainer>
   );
 }

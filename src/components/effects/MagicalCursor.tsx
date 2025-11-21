@@ -13,15 +13,13 @@ interface Particle {
 
 export default function MagicalCursor() {
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     let animationFrame: number;
     let particleId = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-      
+
       // Create new particle
       const newParticle: Particle = {
         id: particleId++,
@@ -34,7 +32,7 @@ export default function MagicalCursor() {
     };
 
     const updateParticles = () => {
-      setParticles(prev => 
+      setParticles(prev =>
         prev
           .map(particle => ({
             ...particle,
@@ -42,7 +40,7 @@ export default function MagicalCursor() {
           }))
           .filter(particle => particle.life > 0)
       );
-      
+
       animationFrame = requestAnimationFrame(updateParticles);
     };
 
@@ -68,12 +66,12 @@ export default function MagicalCursor() {
             boxShadow: `0 0 ${particle.life * 10}px rgba(245, 158, 11, ${particle.life * 0.8})`
           }}
           initial={{ scale: 1 }}
-          animate={{ 
+          animate={{
             scale: 0,
             y: particle.y - 20,
             opacity: 0
           }}
-          transition={{ 
+          transition={{
             duration: 1,
             ease: "easeOut"
           }}

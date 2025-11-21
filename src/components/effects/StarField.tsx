@@ -5,14 +5,7 @@
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
-interface Star {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  duration: number;
-  delay: number;
-}
+
 
 export default function StarField() {
   const stars = useMemo(() => {
@@ -50,7 +43,7 @@ export default function StarField() {
           }}
         />
       ))}
-      
+
       {/* Floating magical symbols */}
       {[...Array(8)].map((_, i) => (
         <motion.div

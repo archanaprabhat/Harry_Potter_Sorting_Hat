@@ -9,7 +9,7 @@ interface ShareModalProps {
     isOpen: boolean;
     onClose: () => void;
     house: keyof typeof HOUSES;
-    userName: string;
+
     shareUrl: string;
 }
 
@@ -20,7 +20,7 @@ const SHARE_MESSAGES = {
     ravenclaw: "🦅 RAVENCLAW\nI’ve been sorted into Ravenclaw.\n\nCuriosity led the way — reveal your house:"
 };
 
-export default function ShareModal({ isOpen, onClose, house, userName, shareUrl }: ShareModalProps) {
+export default function ShareModal({ isOpen, onClose, house, shareUrl }: ShareModalProps) {
     const [isGenerating, setIsGenerating] = useState(false);
 
     const shareText = SHARE_MESSAGES[house];
@@ -176,7 +176,7 @@ export default function ShareModal({ isOpen, onClose, house, userName, shareUrl 
                             </div>
 
                             {/* Native Share (Mobile only usually) */}
-                            {typeof navigator !== 'undefined' && navigator.share && (
+                            {typeof navigator !== 'undefined' && typeof navigator.share === 'function' && (
                                 <Button
                                     onClick={handleNativeShare}
                                     variant="outline"

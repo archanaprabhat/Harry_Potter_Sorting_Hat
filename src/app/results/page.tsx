@@ -14,8 +14,8 @@ import Button from "@/components/ui/Button";
 import ShareModal from "@/components/ShareModal";
 
 // Store & Data
-import { useUserName, useSortedHouse, useQuizAnswers } from "@/lib/store";
-import { getHouseInfo, calculateHousePercentages } from "@/lib/sorting-logic";
+import { useUserName, useSortedHouse } from "@/lib/store";
+import { getHouseInfo } from "@/lib/sorting-logic";
 import { HOUSES } from "@/lib/quiz-data";
 
 
@@ -198,7 +198,7 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 /**
  * Action Buttons
  */
-function ActionButtons({ house, onShareClick }: { house: string; onShareClick: () => void }) {
+function ActionButtons({ onShareClick }: { onShareClick: () => void }) {
   const router = useRouter();
 
   return (
@@ -236,7 +236,6 @@ function ResultsContent() {
   const router = useRouter();
   const userName = useUserName();
   const sortedHouse = useSortedHouse();
-  const quizAnswers = useQuizAnswers();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   // Redirect if no results
@@ -325,7 +324,7 @@ function ResultsContent() {
             <HouseInfo house={sortedHouse} />
 
             {/* Action buttons */}
-            <ActionButtons house={sortedHouse} onShareClick={() => setIsShareModalOpen(true)} />
+            <ActionButtons onShareClick={() => setIsShareModalOpen(true)} />
 
             {/* Bottom spacer */}
           </motion.div>

@@ -75,6 +75,7 @@ export async function GET(request: Request) {
                     />
 
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10 }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                             src={logoUrl}
                             alt={houseInfo.name}
@@ -136,8 +137,9 @@ export async function GET(request: Request) {
                 height: 630,
             },
         );
-    } catch (e: any) {
-        console.log(`${e.message}`);
+    } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+        console.log(`${errorMessage}`);
         return new Response(`Failed to generate the image`, {
             status: 500,
         });
