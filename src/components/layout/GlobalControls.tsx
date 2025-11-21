@@ -40,7 +40,7 @@ export default function GlobalControls() {
                    hover:from-gray-500 hover:to-gray-500/20"
       >
         <span className="text-xl">
-          {audioState.backgroundMusic ? "🔇" : "🔊"}
+          {audioState.backgroundMusic ? "🔊" : "🔇"}
         </span>
       </button>
     </div>

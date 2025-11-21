@@ -1,10 +1,12 @@
 // src/app/results/page.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { toPng } from 'html-to-image';
+import { Download } from 'lucide-react';
 
 // Components
 import MobileContainer from "@/components/layout/MobileContainer";
@@ -12,6 +14,7 @@ import GlobalControls from "@/components/layout/GlobalControls";
 import StarField from "@/components/effects/StarField";
 import Button from "@/components/ui/Button";
 import ShareModal from "@/components/ShareModal";
+import ShareCard from "@/components/results/ShareCard";
 
 // Store & Data
 import { useUserName, useSortedHouse } from "@/lib/store";
@@ -198,7 +201,7 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 /**
  * Action Buttons
  */
-function ActionButtons({ onShareClick }: { onShareClick: () => void }) {
+function ActionButtons({ onShareClick, onDownloadClick, isDownloading }: { onShareClick: () => void; onDownloadClick: () => void; isDownloading: boolean }) {
   const router = useRouter();
 
   return (
@@ -215,6 +218,16 @@ function ActionButtons({ onShareClick }: { onShareClick: () => void }) {
         fullWidth
       >
         🪄 Share your results
+      </Button>
+
+      <Button
+        onClick={onDownloadClick}
+        variant="secondary"
+        size="large"
+        fullWidth
+        disabled={isDownloading}
+      >
+        {isDownloading ? '⏳ Creating Scroll...' : '📜 Download Result'}
       </Button>
 
       <Button
@@ -237,6 +250,8 @@ function ResultsContent() {
   const userName = useUserName();
   const sortedHouse = useSortedHouse();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const shareCardRef = useRef<HTMLDivElement>(null);
 
   // Redirect if no results
   useEffect(() => {
@@ -270,6 +285,31 @@ function ResultsContent() {
   const shareTitle = `I'm a ${houseInfo.name}!`;
   const shareDescription = `I just got sorted into ${houseInfo.name}! 🏰✨ The Sorting Hat has spoken!`;
   const shareHashtags = ['HarryPotter', 'SortingHat', houseInfo.name];
+
+  const handleDownload = async () => {
+    if (shareCardRef.current === null) {
+      return;
+    }
+
+    setIsDownloading(true);
+
+    try {
+      const dataUrl = await toPng(shareCardRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+      });
+
+      const link = document.createElement('a');
+      link.download = `hogwarts-result-${sortedHouse}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Failed to generate image', err);
+      alert('Failed to generate image. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   return (
     <div
@@ -324,7 +364,11 @@ function ResultsContent() {
             <HouseInfo house={sortedHouse} />
 
             {/* Action buttons */}
-            <ActionButtons onShareClick={() => setIsShareModalOpen(true)} />
+            <ActionButtons
+              onShareClick={() => setIsShareModalOpen(true)}
+              onDownloadClick={handleDownload}
+              isDownloading={isDownloading}
+            />
 
             {/* Bottom spacer */}
           </motion.div>
@@ -341,6 +385,13 @@ function ResultsContent() {
         description={shareDescription}
         hashtags={shareHashtags}
       />
+
+      {/* Hidden ShareCard for image generation */}
+      <div style={{ position: 'fixed', left: '-9999px', top: 0, opacity: 0, pointerEvents: 'none' }}>
+        <div ref={shareCardRef}>
+          <ShareCard house={sortedHouse} userName={userName} />
+        </div>
+      </div>
     </div>
   );
 }
