@@ -68,7 +68,7 @@ export default function ShareCard({ house, userName }: ShareCardProps) {
                     {houseInfo.traits.slice(0, 3).map((trait) => (
                         <span
                             key={trait}
-                            className="px-6 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium border border-white/30"
+                            className="px-7 py-3 bg-white/20 backdrop-blur-sm rounded-full text-white font-medium border border-white/30"
                         >
                             {trait}
                         </span>
