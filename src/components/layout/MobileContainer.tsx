@@ -9,7 +9,7 @@ interface MobileContainerProps {
 }
 
 export default function MobileContainer({ children, className = '' }: MobileContainerProps) {
-  
+
   // Prevent scrolling on mount
   useEffect(() => {
     // Lock body scroll
@@ -18,7 +18,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
     document.documentElement.style.overflow = 'hidden';
-    
+
     // Cleanup on unmount
     return () => {
       document.body.style.overflow = '';
@@ -32,8 +32,8 @@ export default function MobileContainer({ children, className = '' }: MobileCont
   return (
     <>
       {/* Mobile: Full screen container */}
-      <div className="md:hidden">
-        <div 
+      <div className="lg:hidden">
+        <div
           className={`fixed inset-0 w-full h-full ${className}`}
           style={{
             height: '100vh',
@@ -55,7 +55,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
       </div>
 
       {/* Desktop: Centered iPhone-like container */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <motion.div
             className={`relative ${className}`}
@@ -74,7 +74,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             {/* Magical border glow effect */}
-            <motion.div 
+            <motion.div
               className="absolute inset-0 rounded-[25px] pointer-events-none"
               style={{
                 background: 'linear-gradient(45deg, rgba(212, 175, 55, 0.1), transparent, rgba(212, 175, 55, 0.1))'
@@ -88,7 +88,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
                 ease: "easeInOut"
               }}
             />
-            
+
             {/* Content */}
             <div className="relative z-10 h-full overflow-hidden">
               <AnimatePresence mode="wait">

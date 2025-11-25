@@ -8,14 +8,16 @@ interface ParchmentScrollProps {
 
 const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
   subtitle = "",
-  className = "" 
+  className = ""
 }) => {
   return (
-    <div className={`relative inline-block max-w-2xl w-full ${className}`}>
+    <div className={`relative w-full h-full ${className}`}>
       {/* Main parchment container */}
-      <div 
-        className="relative px-12 py-8 min-w-[300px] text-center mx-auto"
+      <div
+        className="relative text-center mx-auto h-full flex items-center justify-center"
         style={{
+          padding: 'clamp(0.75rem, 2vh, 2rem) clamp(1rem, 3vw, 3rem)',
+          minWidth: 'clamp(150px, 40vw, 300px)',
           background: 'linear-gradient(135deg, #f4e4bc 0%, #f9f1d4 20%, #fdf6e3 40%, #f9f1d4 60%, #f4e4bc 80%, #ede0c8 100%)',
           borderRadius: '12px',
           boxShadow: `
@@ -34,7 +36,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
         }}
       >
         {/* Enhanced aged paper texture overlay */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-25"
           style={{
             background: `
@@ -48,9 +50,9 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
             borderRadius: '12px'
           }}
         />
-        
+
         {/* Old stains and water marks */}
-        <div 
+        <div
           className="absolute inset-0 pointer-events-none opacity-15"
           style={{
             background: `
@@ -62,12 +64,13 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
             borderRadius: '12px'
           }}
         />
-        
+
         {/* Text content - responsive to content length */}
         <div className="relative z-10">
-          <p 
-            className="text-base leading-relaxed max-w-prose"
+          <p
+            className="leading-relaxed max-w-prose"
             style={{
+              fontSize: 'clamp(0.875rem, 2.5vw, 1.125rem)',
               color: '#4a4a4a',
               textShadow: '0.5px 0.5px 1px rgba(0,0,0,0.06)',
               fontFamily: 'serif',
@@ -83,7 +86,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
       </div>
 
       {/* Left scroll rod - lighter wood */}
-      <div 
+      <div
         className="absolute left-0 top-0 bottom-0 w-5 rounded-full"
         style={{
           background: 'linear-gradient(90deg, #CD853F 0%, #DEB887 25%, #F5DEB3 50%, #DEB887 75%, #CD853F 100%)',
@@ -108,7 +111,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
       </div>
 
       {/* Right scroll rod - lighter wood */}
-      <div 
+      <div
         className="absolute right-0 top-0 bottom-0 w-5 rounded-full"
         style={{
           background: 'linear-gradient(90deg, #CD853F 0%, #DEB887 25%, #F5DEB3 50%, #DEB887 75%, #CD853F 100%)',
@@ -134,7 +137,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
 
       {/* Top decorative rings - lighter */}
       <div className="absolute -top-2 left-0 w-5 h-3 transform -translate-x-1/2">
-        <div 
+        <div
           className="w-full h-full rounded-full"
           style={{
             background: 'linear-gradient(180deg, #B8860B 0%, #DAA520 50%, #B8860B 100%)',
@@ -143,7 +146,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
         />
       </div>
       <div className="absolute -top-2 right-0 w-5 h-3 transform translate-x-1/2">
-        <div 
+        <div
           className="w-full h-full rounded-full"
           style={{
             background: 'linear-gradient(180deg, #B8860B 0%, #DAA520 50%, #B8860B 100%)',
@@ -154,7 +157,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
 
       {/* Bottom decorative rings - lighter */}
       <div className="absolute -bottom-2 left-0 w-5 h-3 transform -translate-x-1/2">
-        <div 
+        <div
           className="w-full h-full rounded-full"
           style={{
             background: 'linear-gradient(180deg, #B8860B 0%, #DAA520 50%, #B8860B 100%)',
@@ -163,7 +166,7 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
         />
       </div>
       <div className="absolute -bottom-2 right-0 w-5 h-3 transform translate-x-1/2">
-        <div 
+        <div
           className="w-full h-full rounded-full"
           style={{
             background: 'linear-gradient(180deg, #B8860B 0%, #DAA520 50%, #B8860B 100%)',
@@ -174,55 +177,55 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
 
       {/* Tattered edges effect */}
       <div className="absolute inset-0 pointer-events-none rounded-lg overflow-hidden">
-        <svg 
-          className="absolute inset-0 w-full h-full" 
-          viewBox="0 0 100 100" 
+        <svg
+          className="absolute inset-0 w-full h-full"
+          viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
           <defs>
             <filter id="roughPaper">
-              <feTurbulence 
-                baseFrequency="0.04" 
-                numOctaves="3" 
+              <feTurbulence
+                baseFrequency="0.04"
+                numOctaves="3"
                 result="noise"
               />
-              <feDisplacementMap 
-                in="SourceGraphic" 
-                in2="noise" 
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="noise"
                 scale="0.5"
               />
             </filter>
           </defs>
         </svg>
       </div>
-      
+
       {/* Burn marks and aged spots */}
       <div className="absolute inset-2 rounded-lg pointer-events-none opacity-15">
         {/* Corner burn marks */}
-        <div 
+        <div
           className="absolute top-0 left-0 w-8 h-8 rounded-full"
-          style={{ 
+          style={{
             background: 'radial-gradient(circle, rgba(139,69,19,0.3) 0%, transparent 70%)',
             transform: 'translate(-25%, -25%)'
           }}
         />
-        <div 
+        <div
           className="absolute top-0 right-0 w-6 h-6 rounded-full"
-          style={{ 
+          style={{
             background: 'radial-gradient(circle, rgba(139,69,19,0.2) 0%, transparent 70%)',
             transform: 'translate(25%, -25%)'
           }}
         />
-        <div 
+        <div
           className="absolute bottom-0 left-0 w-5 h-5 rounded-full"
-          style={{ 
+          style={{
             background: 'radial-gradient(circle, rgba(139,69,19,0.25) 0%, transparent 70%)',
             transform: 'translate(-25%, 25%)'
           }}
         />
-        <div 
+        <div
           className="absolute bottom-0 right-0 w-7 h-7 rounded-full"
-          style={{ 
+          style={{
             background: 'radial-gradient(circle, rgba(139,69,19,0.2) 0%, transparent 70%)',
             transform: 'translate(25%, 25%)'
           }}

@@ -21,10 +21,10 @@ interface Sparkle {
 
 const YellowSparkles = ({ isActive }: { isActive: boolean }) => {
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
-  
+
   useEffect(() => {
     if (!isActive) return;
-    
+
     const generateSparkles = () => {
       return Array.from({ length: 80 }, (_, i) => ({
         id: `sparkle-${i}`,
@@ -35,12 +35,12 @@ const YellowSparkles = ({ isActive }: { isActive: boolean }) => {
         duration: Math.random() * 2 + 2, // 2-4 seconds
       }));
     };
-    
+
     setSparkles(generateSparkles());
   }, [isActive]);
-  
+
   if (!isActive) return null;
-  
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {sparkles.map((sparkle) => (
@@ -68,16 +68,16 @@ const YellowSparkles = ({ isActive }: { isActive: boolean }) => {
   );
 };
 
-export default function ProgressBar({ 
-  progress, 
-  currentStep, 
-  totalSteps, 
-  className = "" 
+export default function ProgressBar({
+  progress,
+  currentStep,
+  totalSteps,
+  className = ""
 }: ProgressBarProps) {
   // Show sparkles when progress changes
   const [showSparkles, setShowSparkles] = useState(false);
   const [lastProgress, setLastProgress] = useState(progress);
-  
+
   useEffect(() => {
     if (progress > lastProgress) {
       setShowSparkles(true);
@@ -85,41 +85,41 @@ export default function ProgressBar({
     }
     setLastProgress(progress);
   }, [progress, lastProgress]);
-  
+
   return (
-    <div className={`w-2/3 mx-auto ${className}`}>
+    <div className={`w-full ${className}`}>
       {/* Progress info */}
       <div className="flex justify-end items-center mb-3">
         <div className="font-serif text-yellow-400 text-sm">
           Question {currentStep} of {totalSteps}
         </div>
       </div>
-      
+
       {/* Progress bar container with sparkles */}
       <div className="relative">
         <YellowSparkles isActive={showSparkles} />
-        
+
         <div className="relative w-full h-6 bg-slate-700 rounded-full border-2 border-yellow-700/50 overflow-hidden shadow-inner">
           {/* Background ambient glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-900/30 via-yellow-800/20 to-yellow-900/30 rounded-full" />
-          
+
           {/* Progress fill with yellow liquid metal effect */}
           <div
             className="relative h-full rounded-full transition-all duration-1000 ease-out"
-            style={{ 
+            style={{
               width: `${progress}%`,
               background: 'linear-gradient(90deg, #b45309 0%, #d97706 25%, #f59e0b 50%, #fbbf24 75%, #fde047 100%)',
-              boxShadow: progress > 0 
+              boxShadow: progress > 0
                 ? '0 0 20px rgba(251, 191, 36, 0.5), inset 0 2px 4px rgba(255, 255, 255, 0.2)'
                 : 'none'
             }}
           >
             {/* Top highlight for 3D effect */}
             <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-200/40 to-yellow-100/40 rounded-full" />
-            
+
             {/* Moving shimmer effect */}
             {progress > 0 && (
-              <div 
+              <div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-full animate-shimmer"
                 style={{
                   width: '40%',
@@ -127,12 +127,12 @@ export default function ProgressBar({
                 }}
               />
             )}
-            
+
             {/* Leading edge bright spot */}
             {progress > 0 && progress < 100 && (
               <div
                 className="absolute top-0 right-0 w-1 h-full bg-yellow-200 rounded-full animate-pulse-glow"
-                style={{ 
+                style={{
                   boxShadow: '0 0 8px #fbbf24, 0 0 16px #f59e0b',
                 }}
               />
@@ -140,7 +140,7 @@ export default function ProgressBar({
           </div>
         </div>
       </div>
-      
+
       {/* CSS Animations matching the reference */}
       <style jsx>{`
         @keyframes sparkle {
