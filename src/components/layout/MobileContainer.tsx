@@ -31,8 +31,8 @@ export default function MobileContainer({ children, className = '' }: MobileCont
 
   return (
     <>
-      {/* Mobile: Full screen container */}
-      <div className="lg:hidden">
+      {/* Mobile & Tablet: Full screen container */}
+      <div className="xl:hidden">
         <div
           className={`fixed inset-0 w-full h-full ${className}`}
           style={{
@@ -54,8 +54,8 @@ export default function MobileContainer({ children, className = '' }: MobileCont
         </div>
       </div>
 
-      {/* Desktop: Centered iPhone-like container */}
-      <div className="hidden lg:block">
+      {/* Desktop (large): Centered iPhone-like container */}
+      <div className="hidden xl:block">
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <motion.div
             className={`relative ${className}`}

@@ -78,15 +78,14 @@ function QuizOptionCard({
         bg-gradient-to-br from-amber-50 via-amber-100 to-amber-200
         border-2 shadow-lg backdrop-blur-sm
         transition-all duration-500 group w-full h-full flex flex-col
-        
-        // Responsive borders and shadows
+       
         ${isSelected
           ? 'border-amber-600 shadow-amber-400/50 shadow-lg sm:shadow-xl bg-gradient-to-br from-amber-200 to-amber-300'
           : 'border-amber-300/70 hover:border-amber-500 hover:shadow-amber-300/60 hover:shadow-lg sm:hover:shadow-xl'
         }
       `}
       style={{
-        padding: 'clamp(0.5rem, 1.5vh, 1rem)',
+        padding: 'clamp(0.4rem, 1vh, 0.75rem)',  // Tighter padding on tablets
         background: isSelected
           ? 'linear-gradient(135deg, #fef3c7 0%, #fcd34d 50%, #f59e0b 100%)'
           : undefined
@@ -122,7 +121,7 @@ function QuizOptionCard({
       </div>
 
       {/* Content container with proper spacing - Centers everything */}
-      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center" style={{ gap: 'clamp(0.25rem, 1vh, 0.75rem)' }}>
+      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center" style={{ gap: 'clamp(0.2rem, 0.6vh, 0.5rem)' }}>
 
         {/* Option image icon - responsive sizing */}
         {option.image && (
@@ -281,12 +280,15 @@ function QuizContent() {
       </div>
 
       {/* Main content area - Fluid layout with percentage widths */}
-      <div className="flex-1 flex flex-col w-[95%] mx-auto min-h-0" style={{ gap: 'clamp(0.5rem, 1.5vh, 1.5rem)' }}>
+      <div className="flex-1 flex flex-col w-[95%] mx-auto min-h-0" style={{
+        gap: 'clamp(0.4rem, 1vh, 1rem)',  // Tighter gap on tablets
+        paddingBottom: 'clamp(0.5rem, 1vh, 1.5rem)'  // Reduced bottom padding for more space
+      }}>
 
         {/* Top Section: Progress & Question - Dynamic height based on screen */}
-        <div className="flex flex-col justify-center min-h-0" style={{
-          height: 'clamp(25%, 30vh, 35%)',
-          gap: 'clamp(0.5rem, 1vh, 1rem)'
+        <div className="flex flex-col justify-center min-h-0 flex-shrink-0" style={{
+          maxHeight: 'min(35%, 25vh)',  // Reduced from 40%/30vh to leave more room for options
+          gap: 'clamp(0.3rem, 0.8vh, 0.8rem)'  // Tighter gap
         }}>
           {/* Quiz progress indicator */}
           <div className="w-[90%] mx-auto flex-shrink-0">
@@ -302,7 +304,7 @@ function QuizContent() {
             initial={{ opacity: 0, scale: 0.8, rotateX: -15 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="w-full flex justify-center flex-1 min-h-0"
+            className="w-full flex justify-center flex-shrink min-h-0"
           >
             <ParchmentScroll
               className="text-sm sm:text-base md:text-lg lg:text-xl font-bold w-full"
@@ -311,10 +313,19 @@ function QuizContent() {
           </motion.div>
         </div>
 
-        {/* Bottom Section: Answer options grid - Takes remaining space */}
-        <div className="flex-1 min-h-0 w-full">
+        {/* Bottom Section: Answer options grid - Takes remaining space dynamically */}
+        <div className="flex-1 min-h-0 w-full overflow-y-auto overflow-x-hidden" style={{
+          maxHeight: '60vh'  // More generous space for options grid
+        }}>
           <AnimatePresence mode="wait">
-            <div className="grid grid-cols-2 h-full w-full" style={{ gap: 'clamp(0.5rem, 1.5vw, 1.5rem)' }}>
+            <div
+              className="grid grid-cols-2 w-full h-full"
+              style={{
+                gap: 'clamp(0.4rem, 1vh, 0.8rem)',  // Tighter gap that shrinks on tablets
+                gridTemplateRows: 'repeat(2, minmax(8rem, 1fr))',  // Minimum height to ensure visibility
+                minHeight: 'fit-content'  // Ensure grid respects content
+              }}
+            >
               {currentQuestion.options.map((option, index) => (
                 <QuizOptionCard
                   key={index}

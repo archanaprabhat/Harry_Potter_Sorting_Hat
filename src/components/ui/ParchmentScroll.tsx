@@ -11,13 +11,14 @@ const ParchmentScroll: React.FC<ParchmentScrollProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`relative w-full h-full ${className}`}>
+    <div className={`relative w-full ${className}`}>
       {/* Main parchment container */}
       <div
-        className="relative text-center mx-auto h-full flex items-center justify-center"
+        className="relative text-center mx-auto"
         style={{
           padding: 'clamp(0.75rem, 2vh, 2rem) clamp(1rem, 3vw, 3rem)',
           minWidth: 'clamp(150px, 40vw, 300px)',
+          maxHeight: '100%',
           background: 'linear-gradient(135deg, #f4e4bc 0%, #f9f1d4 20%, #fdf6e3 40%, #f9f1d4 60%, #f4e4bc 80%, #ede0c8 100%)',
           borderRadius: '12px',
           boxShadow: `
