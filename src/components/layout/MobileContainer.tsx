@@ -14,7 +14,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
   useEffect(() => {
     // Lock body scroll
     document.body.style.overflow = 'hidden';
-    document.body.style.height = '100vh';
+    document.body.style.height = '100%';
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
     document.documentElement.style.overflow = 'hidden';
@@ -32,12 +32,12 @@ export default function MobileContainer({ children, className = '' }: MobileCont
   return (
     <>
       {/* Mobile & Tablet: Full screen container */}
-      <div className="xl:hidden">
+      <div className=" xl:hidden">
         <div
           className={`fixed inset-0 w-full h-full ${className}`}
           style={{
             height: '100vh',
-            background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`,
+            background: 'transparent',
             overflow: 'hidden'
           }}
         >
@@ -63,7 +63,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
               width: '430px', // iPhone 14 Pro Max width
               height: '932px', // iPhone 14 Pro Max height
               maxHeight: '95vh', // Ensure it fits in viewport
-              background: `radial-gradient(ellipse at center, var(--magical-blue) 0%, var(--deep-purple) 70%, #0a0a0a 100%)`,
+              background: 'transparent',
               borderRadius: '25px',
               border: '1px solid rgba(212, 175, 55, 0.2)',
               boxShadow: '0 0 50px rgba(0, 0, 0, 0.8)',

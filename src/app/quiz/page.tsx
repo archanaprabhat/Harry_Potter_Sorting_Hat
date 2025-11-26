@@ -85,7 +85,7 @@ function QuizOptionCard({
         }
       `}
       style={{
-        padding: 'clamp(0.4rem, 1vh, 0.75rem)',  // Tighter padding on tablets
+        padding: 'clamp(0.8rem, 2vh, 1.5rem)',  // Tighter padding on tablets
         background: isSelected
           ? 'linear-gradient(135deg, #fef3c7 0%, #fcd34d 50%, #f59e0b 100%)'
           : undefined
@@ -321,7 +321,7 @@ function QuizContent() {
             <div
               className="grid grid-cols-2 w-full h-full"
               style={{
-                gap: 'clamp(0.4rem, 1vh, 0.8rem)',  // Tighter gap that shrinks on tablets
+                gap: 'clamp(0.8rem, 2vh, 2rem)',  // Tighter gap that shrinks on tablets
                 gridTemplateRows: 'repeat(2, minmax(8rem, 1fr))',  // Minimum height to ensure visibility
                 minHeight: 'fit-content'  // Ensure grid respects content
               }}
