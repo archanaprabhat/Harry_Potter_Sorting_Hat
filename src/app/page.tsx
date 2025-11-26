@@ -22,10 +22,10 @@ export default function Home() {
       <StarField />
       <MobileContainer>
         {/* Full-screen layout: divided into header, hat area, and footer */}
-        <div className="h-screen flex flex-col justify-evenly">
+        <div className="h-full flex flex-col justify-evenly">
 
           {/* Header: Harry Potter logo + intro text */}
-          <div className="text-center pt-[60px] md:mt-32 xl:mt-0">
+          <div className="text-center pt-[60px] xl:mt-0">
             <div className="flex justify-center items-center mb-4">
               <Image
                 src="/images/image.png"
