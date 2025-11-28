@@ -63,7 +63,7 @@ export default function StarField() {
         }
       }
 
-      draw(ctx: CanvasRenderingContext2D, centerX: number, centerY: number) {
+      draw(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, centerX: number, centerY: number) {
         // Project 3D coordinates to 2D screen space
         // Perspective projection: screenX = x / z
         const k = 128.0 / this.z; // Field of view factor
@@ -122,7 +122,7 @@ export default function StarField() {
 
       stars.forEach(star => {
         star.update();
-        star.draw(ctx, centerX, centerY);
+        star.draw(ctx, canvas, centerX, centerY);
       });
 
       requestAnimationFrame(animate);

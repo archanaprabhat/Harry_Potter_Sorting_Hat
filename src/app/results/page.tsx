@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { toPng } from 'html-to-image';
-import { Download } from 'lucide-react';
 
 // Components
 import MobileContainer from "@/components/layout/MobileContainer";
