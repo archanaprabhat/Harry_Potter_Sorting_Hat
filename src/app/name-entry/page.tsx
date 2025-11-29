@@ -8,6 +8,7 @@ import Image from "next/image";
 // Components
 import SortingHat from "@/components/sorting-hat/SortingHat";
 import MobileContainer from "@/components/layout/MobileContainer";
+import StarField from "@/components/effects/StarField";
 import GlobalControls from "@/components/layout/GlobalControls";
 
 // Zustand store hooks
@@ -177,50 +178,54 @@ function NameEntryContent() {
   };
 
   return (
-    <div className='no-scroll flex flex-col'>
+    <div className='no-scroll flex flex-col h-full'>
       {/* Global controls (back + audio toggle) */}
       <GlobalControls />
 
       {/* Sorting Hat animation */}
-      <div className='pb-16'>
+      <div className='shrink-0 xl:pb-10 pb-6'>
         <div className='flex justify-center'>
           <SortingHat size='medium' isAnimating={true} showGlow={true} />
         </div>
       </div>
 
       {/* Main Content */}
-      <div className='flex-1 flex flex-col justify-center px-4 pb-8'>
-        {/* Question prompt on parchment */}
-        <ParchmentContainer className='mb-8'>
-          <div className='text-center'>
-            <h1 className='font-serif text-2xl font-bold text-amber-900 mb-3'>
-              State your name, young Muggle
-            </h1>
-          </div>
-        </ParchmentContainer>
+      <div className='flex-1 flex flex-col px-4 pb-6 min-h-0 overflow-y-auto'>
 
-        {/* Input Section */}
-        <div className='mb-8'>
-          <QuillInput
-            value={nameInput}
-            onChange={handleInputChange}
-            onKeyPress={handleKeyPress}
-            disabled={isSubmitting}
-            error={error}
-          />
-
-          {/* Validation error message */}
-          {error && (
-            <div className='mt-4 text-center'>
-              <div className='inline-block bg-red-100 border border-red-400 rounded-lg px-4 py-2'>
-                <p className='text-red-700 text-sm font-serif'>{error}</p>
-              </div>
+        {/* Center Group: Parchment + Input */}
+        <div className="flex-1 flex flex-col justify-center w-full max-w-lg mx-auto">
+          {/* Question prompt on parchment */}
+          <ParchmentContainer className='mb-8'>
+            <div className='text-center'>
+              <h1 className='font-serif text-2xl font-bold text-amber-900 mb-3'>
+                State your name, young Muggle
+              </h1>
             </div>
-          )}
+          </ParchmentContainer>
+
+          {/* Input Section */}
+          <div className='mb-4'>
+            <QuillInput
+              value={nameInput}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+              disabled={isSubmitting}
+              error={error}
+            />
+
+            {/* Validation error message */}
+            {error && (
+              <div className='mt-4 text-center'>
+                <div className='inline-block bg-red-100 border border-red-400 rounded-lg px-4 py-2'>
+                  <p className='text-red-700 text-sm font-serif'>{error}</p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Hogwarts seal button */}
-        <div className='mb-6'>
+        <div className='mt-auto shrink-0 mb-4'>
           <button
             onClick={handleSubmit}
             disabled={isSubmitting || !nameInput.trim()}
@@ -241,7 +246,7 @@ function NameEntryContent() {
             />
           </button>
 
-          <p className='text-center mt-3 text-amber-200 text-sm font-serif'>
+          <p className='text-center mt-3 text-amber-200 text-sm font-serif p-2'>
             {isSubmitting
               ? "Storing your name in the Book of Admittance..."
               : "Press the Hogwarts seal to begin"}
@@ -258,8 +263,11 @@ function NameEntryContent() {
 
 export default function NameEntryPage() {
   return (
-    <MobileContainer>
-      <NameEntryContent />
-    </MobileContainer>
+    <>
+      <StarField />
+      <MobileContainer>
+        <NameEntryContent />
+      </MobileContainer>
+    </>
   );
 }

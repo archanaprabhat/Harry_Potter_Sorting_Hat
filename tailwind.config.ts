@@ -7,19 +7,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "375px", // iPhone SE
+        xr: "414px", // iPhone XR
+      },
       colors: {
         // Harry Potter Main Colors
         gold: "#EFE8CA",
-        bronze: "#CD7F32", 
+        bronze: "#CD7F32",
         deepPurple: "#191124",
         magicalBlue: "#2F1C39",
         parchment: "#F4E4BC",
         darkWood: "#3C2A17",
-        
+
         // House Colors (for future pages)
         gryffindor: "#7C0A02",
         gryffindorGold: "#D4AF37",
-        slytherin: "#1A472A", 
+        slytherin: "#1A472A",
         slytherinSilver: "#C0C0C0",
         hufflepuff: "#ECB939",
         hufflepuffBlack: "#2D2926",

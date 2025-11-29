@@ -36,7 +36,7 @@ export default function MobileContainer({ children, className = '' }: MobileCont
         <div
           className={`fixed inset-0 w-full h-full ${className}`}
           style={{
-            height: '100vh',
+            height: '100dvh',
             background: 'transparent',
             overflow: 'hidden'
           }}
