@@ -10,7 +10,7 @@
   --magical-blue: #2F1C39;
   --parchment: #F4E4BC;
   --dark-wood: #3C2A17;
-  
+
   /* House Colors */
   --gryffindor: #7C0A02;
   --gryffindor-gold: #D4AF37;
@@ -27,21 +27,22 @@ html {
   font-family: 'Inter', sans-serif;
   scroll-behavior: smooth;
   height: 100%;
-  overflow: hidden; /* Prevent any scrolling */
+  overflow: hidden;
+  /* Prevent any scrolling */
 }
 
 body {
-  background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--magical-blue) 50%,
-    #2c354a 100%
-  );
+  background: linear-gradient(135deg,
+      var(--deep-purple) 0%,
+      var(--magical-blue) 50%,
+      #2c354a 100%);
   height: 100vh;
-  height: 100dvh; /* Use dynamic viewport height for mobile */
+  height: 100dvh;
+  /* Use dynamic viewport height for mobile */
   width: 100vw;
   overflow: hidden;
-  position: fixed; /* Prevent any scrolling whatsoever */
+  position: fixed;
+  /* Prevent any scrolling whatsoever */
   top: 0;
   left: 0;
 }
@@ -51,13 +52,15 @@ body {
   .text-parchment {
     color: #F4E4BC !important;
   }
+
   .text-gold {
     color: #EFE8CA !important;
   }
+
   .text-bronze {
     color: #CD7F32 !important;
   }
-  
+
   /* No scroll class for containers */
   .no-scroll {
     height: 100vh;
@@ -82,8 +85,10 @@ body {
 /* Desktop Centering */
 @media (min-width: 768px) {
   .mobile-container {
-    max-width: 430px; /* iPhone 14 Pro Max width */
-    height: 932px; /* iPhone 14 Pro Max height */
+    max-width: 430px;
+    /* iPhone 14 Pro Max width */
+    height: 932px;
+    /* iPhone 14 Pro Max height */
     margin: 0 auto;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
     border-radius: 20px;
@@ -92,12 +97,12 @@ body {
     top: 50%;
     transform: translateY(-50%);
   }
-  
+
   body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: 
+    background:
       linear-gradient(135deg, var(--deep-purple) 0%, var(--magical-blue) 100%),
       url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
@@ -105,9 +110,47 @@ body {
 
 /* Parchment background styles for themed elements */
 .parchment-bg {
-  background: 
+  background:
     radial-gradient(ellipse at center, #faf7f1 10%, #f3dca1 70%, #e0b969 100%);
   border: 5px solid var(--bronze);
   position: relative;
 }
 
+
+/* Custom Scrollbar Styling - Magical Theme */
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(25, 17, 36, 0.3);
+  /* Deep purple with transparency */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #D4AF37 0%, #CD7F32 100%);
+  /* Gold to bronze gradient */
+  border-radius: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #EFE8CA 0%, #D4AF37 100%);
+  /* Lighter gold on hover */
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #D4AF37 rgba(25, 17, 36, 0.3);
+}
+
+/* Prevent horizontal scrolling globally */
+body,
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}

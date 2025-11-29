@@ -3,10 +3,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { toPng } from 'html-to-image';
-import { Download } from 'lucide-react';
 
 // Components
 import MobileContainer from "@/components/layout/MobileContainer";
@@ -21,51 +19,16 @@ import { useUserName, useSortedHouse } from "@/lib/store";
 import { getHouseInfo } from "@/lib/sorting-logic";
 import { HOUSES } from "@/lib/quiz-data";
 
-
-
 /**
- * House Crest Component with magical animations
+ * House Crest Component
  */
 function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
   const houseInfo = getHouseInfo(house);
   const logoPath = `/images/${house}_logo.png`;
 
   return (
-    <motion.div
-      initial={{ scale: 0, rotate: -180 }}
-      animate={{ scale: 1, rotate: 0 }}
-      transition={{
-        duration: 1.2,
-        ease: "easeOut",
-        delay: 0.5
-      }}
-      className="relative flex justify-center mb-2 flex-shrink-0"
-    >
-      {/* Glowing background effect */}
-      <motion.div
-        className="absolute inset-0 rounded-full "
-        style={{
-          background: `radial-gradient(circle, ${houseInfo.colors[0]}40 0%, transparent 70%)`,
-          filter: 'blur(20px)',
-          transform: 'scale(1.5)'
-        }}
-        animate={{
-          scale: [1.5, 1.8, 1.5],
-          opacity: [0.3, 0.6, 0.3]
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-
-      {/* House logo */}
-      <motion.div
-        className="relative z-10"
-        whileHover={{ scale: 1.10 }}
-        transition={{ duration: 0.3 }}
-      >
+    <div className="relative flex justify-center mb-4">
+      <div className="relative z-10">
         <Image
           src={logoPath}
           alt={`${houseInfo.name} crest`}
@@ -73,31 +36,8 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
           height={320}
           className="drop-shadow-2xl"
         />
-      </motion.div>
-
-      {/* Floating particles around the crest */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 rounded-full "
-          style={{
-            background: houseInfo.colors[1],
-            left: `${50 + Math.cos(i * 60 * Math.PI / 180) * 80}%`,
-            top: `${50 + Math.sin(i * 60 * Math.PI / 180) * 80}%`,
-          }}
-          animate={{
-            scale: [0.5, 1, 0.5],
-            opacity: [0.3, 0.8, 0.3],
-            rotate: [0, 360]
-          }}
-          transition={{
-            duration: 2 + i * 0.3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      ))}
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
@@ -108,56 +48,28 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
   const houseInfo = getHouseInfo(house);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 1 }}
-      className="text-center mb-6"
-    >
-      {/* House name with magical styling */}
-      <motion.h1
+    <div className="text-center mb-6">
+      {/* House name */}
+      <h1
         className="text-3xl sm:text-4xl font-bold mb-2 font-serif"
         style={{
           background: `linear-gradient(135deg, ${houseInfo.colors[0]}, ${houseInfo.colors[1]})`,
           WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          textShadow: `0 0 20px ${houseInfo.colors[1]}40`
-        }}
-        animate={{
-          textShadow: [
-            `0 0 20px ${houseInfo.colors[1]}40`,
-            `0 0 30px ${houseInfo.colors[1]}60`,
-            `0 0 20px ${houseInfo.colors[1]}40`
-          ]
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
+          WebkitTextFillColor: 'transparent'
         }}
       >
         {houseInfo.name}
-      </motion.h1>
+      </h1>
 
       {/* House description */}
-      <motion.p
-        className="text-amber-100 text-sm sm:text-base mb-4 px-4 leading-relaxed"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-      >
+      <p className="text-amber-100 text-sm sm:text-base mb-4 px-4 leading-relaxed">
         {houseInfo.description}
-      </motion.p>
+      </p>
 
       {/* House traits */}
-      <motion.div
-        className="flex flex-wrap justify-center gap-2 mb-4"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 1.4 }}
-      >
-        {houseInfo.traits.map((trait, index) => (
-          <motion.span
+      <div className="flex flex-wrap justify-center gap-2 mb-4">
+        {houseInfo.traits.map((trait) => (
+          <span
             key={trait}
             className="px-3 py-1 rounded-full text-xs font-medium"
             style={{
@@ -165,22 +77,14 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
               color: 'white',
               border: `1px solid ${houseInfo.colors[1]}`
             }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, delay: 1.6 + index * 0.1 }}
           >
             {trait}
-          </motion.span>
+          </span>
         ))}
-      </motion.div>
+      </div>
 
       {/* House details */}
-      <motion.div
-        className="flex justify-evenly gap-4 text-xs sm:text-sm"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.8 }}
-      >
+      <div className="flex justify-evenly gap-4 text-xs sm:text-sm">
         <div className="text-center">
           <p className="text-amber-300 font-semibold">Founder</p>
           <p className="text-amber-100">{houseInfo.founder}</p>
@@ -193,24 +97,23 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
           <p className="text-amber-300 font-semibold">Animal</p>
           <p className="text-amber-100">{houseInfo.animal}</p>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
 /**
  * Action Buttons
  */
-function ActionButtons({ onShareClick, onDownloadClick, isDownloading }: { onShareClick: () => void; onDownloadClick: () => void; isDownloading: boolean }) {
+function ActionButtons({ onShareClick, onDownloadClick, isDownloading }: {
+  onShareClick: () => void;
+  onDownloadClick: () => void;
+  isDownloading: boolean
+}) {
   const router = useRouter();
 
   return (
-    <motion.div
-      className="flex flex-col gap-3 px-4"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 2.5 }}
-    >
+    <div className="flex flex-col gap-3 px-4">
       <Button
         onClick={onShareClick}
         variant="primary"
@@ -238,7 +141,7 @@ function ActionButtons({ onShareClick, onDownloadClick, isDownloading }: { onSha
       >
         🏰 Back to Hogwarts
       </Button>
-    </motion.div>
+    </div>
   );
 }
 
@@ -268,18 +171,12 @@ function ResultsContent() {
   if (!sortedHouse) {
     return (
       <div className="flex items-center justify-center h-full">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="text-6xl"
-        >
-          ⚡
-        </motion.div>
+        <div className="text-6xl">⚡</div>
       </div>
     );
   }
 
-  // Get house colors for dynamic background
+  // Get house colors
   const houseInfo = getHouseInfo(sortedHouse);
   const primaryColor = houseInfo.colors[0];
   const secondaryColor = houseInfo.colors[1];
@@ -316,50 +213,29 @@ function ResultsContent() {
   };
 
   return (
-    <div
-      className="h-full flex flex-col overflow-hidden relative"
-      style={{
-        background: `linear-gradient(135deg, ${primaryColor}15 0%, ${secondaryColor}20 50%, ${primaryColor}15 100%)`,
-      }}
-    >
-      {/* Dynamic background overlay */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          background: `radial-gradient(circle at 30% 20%, ${primaryColor}40 0%, transparent 50%), 
-                      radial-gradient(circle at 70% 80%, ${secondaryColor}30 0%, transparent 50%)`,
-        }}
-      />
-
+    <div className="h-full flex flex-col overflow-hidden relative bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
       {/* Background effects */}
       <StarField />
 
       {/* Global controls */}
-      <GlobalControls />
+      <div className="relative z-20">
+        <GlobalControls />
+      </div>
 
-      {/* Main content with proper spacing to avoid overlap with controls */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Main content */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden relative z-10">
         <div className="min-h-full flex flex-col py-6 pt-20 px-4">
-
-          {/* Congratulations message with proper spacing */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-4"
-          >
+          <div className="text-center mb-4">
             <h2
-              className="text-base sm:text-lg font-bold mb-0.5 font-serif flex-shrink-0"
+              className="text-xl sm:text-2xl font-bold mb-2 font-serif"
               style={{
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                 WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                textShadow: `0 0 20px ${secondaryColor}40`
+                WebkitTextFillColor: 'transparent'
               }}
             >
               Congratulations, {userName}!
             </h2>
-
 
             {/* House crest */}
             <HouseCrest house={sortedHouse} />
@@ -373,11 +249,7 @@ function ResultsContent() {
               onDownloadClick={handleDownload}
               isDownloading={isDownloading}
             />
-
-            {/* Bottom spacer */}
-            {/* Bottom spacer */}
-          </motion.div>
-          <div className="h-6"></div>
+          </div>
           <div className="h-6"></div>
         </div>
       </div>
