@@ -63,7 +63,7 @@ export default function SortingPage() {
         return () => {
             if (timeoutId) clearTimeout(timeoutId);
         };
-    }, [showHat, audioState.backgroundMusic, router]);
+    }, [showHat, router]);
 
     return (
         <MobileContainer>

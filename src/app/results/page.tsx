@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { toPng } from 'html-to-image';
+import { Download } from 'lucide-react';
 
 // Components
 import MobileContainer from "@/components/layout/MobileContainer";
@@ -38,7 +39,7 @@ function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
         ease: "easeOut",
         delay: 0.5
       }}
-      className="relative flex justify-center mb-4 "
+      className="relative flex justify-center mb-2 flex-shrink-0"
     >
       {/* Glowing background effect */}
       <motion.div
@@ -348,7 +349,7 @@ function ResultsContent() {
             className="text-center mb-4"
           >
             <h2
-              className="text-xl sm:text-2xl font-bold mb-2 font-serif"
+              className="text-base sm:text-lg font-bold mb-0.5 font-serif flex-shrink-0"
               style={{
                 background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                 WebkitBackgroundClip: 'text',
@@ -374,7 +375,9 @@ function ResultsContent() {
             />
 
             {/* Bottom spacer */}
+            {/* Bottom spacer */}
           </motion.div>
+          <div className="h-6"></div>
           <div className="h-6"></div>
         </div>
       </div>
