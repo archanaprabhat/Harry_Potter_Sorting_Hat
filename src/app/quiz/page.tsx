@@ -199,8 +199,9 @@ function QuizContent() {
 
   // Local component state for UI feedback
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
   // Get current question data
   const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / QUIZ_QUESTIONS.length) * 100;
@@ -213,7 +214,10 @@ function QuizContent() {
     if (!currentQuestion && quizAnswers.length === QUIZ_QUESTIONS.length) {
       const house = calculateSortedHouse(quizAnswers);
       setSortedHouse(house);
-      router.push('/results');
+      router.push('/sorting');
+    } else if (currentQuestionIndex >= QUIZ_QUESTIONS.length - 2) {
+      // Prefetch sorting page when nearing end
+      router.prefetch('/sorting');
     }
   }, [currentQuestion, quizAnswers, setSortedHouse, router]);
 
@@ -244,8 +248,8 @@ function QuizContent() {
     setSelectedOption(optionIndex);
     setIsSubmitting(true);
 
-    // Add magical delay for better UX (shows selection feedback)
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // Add magical delay for better UX (shows selection feedback) - Removed for speed
+    // await new Promise(resolve => setTimeout(resolve, 400));
 
     // Record the user's answer in the store
     addQuizAnswer(optionIndex);
@@ -260,7 +264,7 @@ function QuizContent() {
       const finalAnswers = [...quizAnswers, optionIndex];
       const house = calculateSortedHouse(finalAnswers);
       setSortedHouse(house);
-      router.push('/results');
+      router.push('/sorting');
     }
 
     setIsSubmitting(false);

@@ -256,6 +256,10 @@ function ResultsContent() {
   useEffect(() => {
     if (!sortedHouse) {
       router.push('/name-entry');
+    } else {
+      // Play house-specific audio
+      const audio = new Audio(`/audio/${sortedHouse}.mp3`);
+      audio.play().catch(err => console.error("Error playing house audio:", err));
     }
   }, [sortedHouse, router]);
 
