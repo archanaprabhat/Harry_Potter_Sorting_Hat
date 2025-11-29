@@ -29,6 +29,10 @@ export default function StarField() {
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
 
+    // Smooth mouse position (for inertia)
+    let currentX = window.innerWidth / 2;
+    let currentY = window.innerHeight / 2;
+
     // --- Star Class ---
     class Star {
       x: number;
@@ -39,8 +43,9 @@ export default function StarField() {
 
       constructor() {
         // Random x, y in a large field centered on 0,0
-        this.x = (Math.random() - 0.5) * window.innerWidth * 2;
-        this.y = (Math.random() - 0.5) * window.innerHeight * 2;
+        // Increased range to ensure coverage at edges
+        this.x = (Math.random() - 0.5) * window.innerWidth * 4;
+        this.y = (Math.random() - 0.5) * window.innerHeight * 4;
         // Start at random depth
         this.z = Math.random() * MAX_DEPTH;
         this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -48,8 +53,8 @@ export default function StarField() {
       }
 
       reset() {
-        this.x = (Math.random() - 0.5) * window.innerWidth * 2;
-        this.y = (Math.random() - 0.5) * window.innerHeight * 2;
+        this.x = (Math.random() - 0.5) * window.innerWidth * 4;
+        this.y = (Math.random() - 0.5) * window.innerHeight * 4;
         this.z = MAX_DEPTH; // Reset to far away
       }
 
@@ -70,7 +75,6 @@ export default function StarField() {
         const px = this.x * k + centerX;
         const py = this.y * k + centerY;
 
-        // Calculate size based on proximity
         // Calculate size based on proximity
         const size = (1 - this.z / MAX_DEPTH) * 1.5 * this.sizeBase;
 
@@ -110,15 +114,17 @@ export default function StarField() {
     // --- Animation Loop ---
     const animate = () => {
       // Create a trail effect by not fully clearing the canvas
-      // ctx.clearRect(0, 0, canvas.width, canvas.height); // Standard clear
       ctx.fillStyle = 'rgba(25, 17, 36, 0.3)'; // Deep purple background with trail
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Calculate the "vanishing point" based on mouse
-      // We want the stars to flow away from the mouse, or rather, we steer INTO the stars
-      // So the vanishing point tracks the mouse
-      const centerX = mouseX;
-      const centerY = mouseY;
+      // Smoothly interpolate current position towards target mouse position
+      // Lerp factor 0.05 gives a nice slow delay
+      currentX += (mouseX - currentX) * 0.05;
+      currentY += (mouseY - currentY) * 0.05;
+
+      // Calculate the "vanishing point" based on smoothed mouse position
+      const centerX = currentX;
+      const centerY = currentY;
 
       stars.forEach(star => {
         star.update();
