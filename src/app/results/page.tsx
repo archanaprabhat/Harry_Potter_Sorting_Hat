@@ -25,9 +25,44 @@ import { HOUSES } from "@/lib/quiz-data";
 function HouseCrest({ house }: { house: keyof typeof HOUSES }) {
   const houseInfo = getHouseInfo(house);
   const logoPath = `/images/${house}_logo.png`;
+  const primaryColor = houseInfo.colors[0];
+
+  // Convert hex to rgba for glow effect
+  const hexToRgba = (hex: string, alpha: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
 
   return (
     <div className="relative flex justify-center mb-4">
+      {/* Luminous glow background */}
+      <div
+        className="absolute inset-0 -m-16 rounded-full animate-pulse"
+        style={{
+          background: `radial-gradient(circle, 
+            ${hexToRgba(primaryColor, 0.4)} 0%, 
+            ${hexToRgba(primaryColor, 0.2)} 40%, 
+            ${hexToRgba(primaryColor, 0.05)} 70%, 
+            transparent 100%)`,
+          filter: 'blur(30px)',
+          transform: 'scale(1.2)'
+        }}
+      />
+
+      {/* Secondary pulsing glow */}
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `radial-gradient(circle, 
+            ${hexToRgba(primaryColor, 0.3)} 0%, 
+            transparent 60%)`,
+          filter: 'blur(20px)',
+          animation: 'pulse 2s ease-in-out infinite'
+        }}
+      />
+
       <div className="relative z-10">
         <Image
           src={logoPath}
@@ -49,15 +84,39 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
 
   return (
     <div className="text-center mb-6">
-      {/* House name */}
+      {/* House name with shimmer effect */}
       <h1
-        className="text-3xl sm:text-4xl font-bold mb-2 font-serif"
+        className="text-3xl sm:text-4xl font-bold mb-2 font-serif relative inline-block"
         style={{
           background: `linear-gradient(135deg, ${houseInfo.colors[0]}, ${houseInfo.colors[1]})`,
           WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent'
+          WebkitTextFillColor: 'transparent',
+          backgroundSize: '200% 200%',
+          animation: 'shimmer 3s ease-in-out infinite'
         }}
       >
+        <style jsx>{`
+          @keyframes shimmer {
+            0%, 100% {
+              background-position: 0% 50%;
+              filter: brightness(1) drop-shadow(0 0 8px ${houseInfo.colors[1]}40);
+            }
+            50% {
+              background-position: 100% 50%;
+              filter: brightness(1.3) drop-shadow(0 0 12px ${houseInfo.colors[1]}60);
+            }
+          }
+          @keyframes sparkle {
+            0%, 100% {
+              transform: scale(1);
+              filter: brightness(1);
+            }
+            50% {
+              transform: scale(1.05);
+              filter: brightness(1.2) drop-shadow(0 0 6px ${houseInfo.colors[1]}80);
+            }
+          }
+        `}</style>
         {houseInfo.name}
       </h1>
 
@@ -66,19 +125,41 @@ function HouseInfo({ house }: { house: keyof typeof HOUSES }) {
         {houseInfo.description}
       </p>
 
-      {/* House traits */}
+      {/* House traits with sparkle effect */}
       <div className="flex flex-wrap justify-center gap-2 mb-4">
-        {houseInfo.traits.map((trait) => (
+        {houseInfo.traits.map((trait, index) => (
           <span
             key={trait}
-            className="px-3 py-1 rounded-full text-xs font-medium"
+            className="px-3 py-1 rounded-full text-xs font-medium relative overflow-hidden"
             style={{
               background: `linear-gradient(135deg, ${houseInfo.colors[0]}80, ${houseInfo.colors[1]}80)`,
               color: 'white',
-              border: `1px solid ${houseInfo.colors[1]}`
+              border: `1px solid ${houseInfo.colors[1]}`,
+              animation: `sparkle 2s ease-in-out infinite ${index * 0.2}s`,
+              boxShadow: `0 0 10px ${houseInfo.colors[1]}40, inset 0 1px 0 rgba(255, 255, 255, 0.2)`
             }}
           >
-            {trait}
+            {/* Shiny overlay effect */}
+            <span
+              className="absolute inset-0 opacity-30"
+              style={{
+                background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%)',
+                backgroundSize: '200% 200%',
+                animation: 'shine 3s ease-in-out infinite',
+                animationDelay: `${index * 0.3}s`
+              }}
+            />
+            <style jsx>{`
+              @keyframes shine {
+                0% {
+                  background-position: -100% 0;
+                }
+                100% {
+                  background-position: 200% 0;
+                }
+              }
+            `}</style>
+            <span className="relative z-10">{trait}</span>
           </span>
         ))}
       </div>
