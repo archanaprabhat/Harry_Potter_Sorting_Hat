@@ -32,7 +32,9 @@ const config: Config = {
       },
       fontFamily: {
         cinzel: ["Cinzel", ...defaultTheme.fontFamily.serif],
-        inter: ["Inter", ...defaultTheme.fontFamily.sans],
+        inter: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
+        cormorant: ["var(--font-cormorant)", ...defaultTheme.fontFamily.serif],
+        fell: ["var(--font-fell)", ...defaultTheme.fontFamily.serif],
       },
       textShadow: {
         lg: "2px 2px 4px rgba(0, 0, 0, 0.8)",

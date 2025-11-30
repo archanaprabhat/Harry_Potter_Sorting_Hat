@@ -1,9 +1,22 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Cormorant_Garamond, IM_Fell_Great_Primer } from 'next/font/google'
 import './globals.css'
 import { AudioProvider } from "@/components/layout/AudioProvider";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-cormorant',
+  display: 'swap',
+})
+const fell = IM_Fell_Great_Primer({
+  weight: '400',
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  variable: '--font-fell',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Harry Potter Sorting Hat',
@@ -17,8 +30,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <AudioProvider>
+      <body className={`${inter.variable} ${cormorant.variable} ${fell.variable} font-sans`}>
+        <AudioProvider>
           {children}
         </AudioProvider></body>
     </html>

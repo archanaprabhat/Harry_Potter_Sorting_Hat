@@ -1,6 +1,6 @@
 // src/components/sorting-hat/SortingHat.tsx
 'use client';
-
+import { useEffect, useState } from "react";
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -36,13 +36,33 @@ export default function SortingHat({
     size: 2 + Math.random() * 2
   }));
 
+  // State for click-triggered sparkle bursts
+  const [bursts, setBursts] = useState<{ id: number; x: number; y: number }[]>([]);
+
+  const handleHatClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left; // x position within the element.
+    const y = e.clientY - rect.top;  // y position within the element.
+
+    const newBurst = { id: Date.now(), x, y };
+    setBursts((prev) => [...prev, newBurst]);
+
+    // Remove burst after animation
+    setTimeout(() => {
+      setBursts((prev) => prev.filter((b) => b.id !== newBurst.id));
+    }, 1000);
+  };
+
   return (
-    <div className={`relative mt-15 ${className}`}>
+    <div
+      className={`relative mt-15 cursor-pointer ${className}`}
+      onClick={handleHatClick}
+    >
 
       {/* Luminous purple radial gradient background */}
       {showGlow && (
         <div
-          className="absolute inset-0 -m-32 rounded-full"
+          className="absolute inset-0 -m-32 rounded-full pointer-events-none"
           style={{
             background: `radial-gradient(circle, 
               rgba(90, 24, 154, 0.4) 0%, 
@@ -58,7 +78,7 @@ export default function SortingHat({
       {/* Pulsing purple glow aura */}
       {showGlow && (
         <motion.div
-          className="absolute inset-0 rounded-full"
+          className="absolute inset-0 rounded-full pointer-events-none"
           style={{
             background: `radial-gradient(circle, 
               rgba(90, 24, 154, 0.6) 0%, 
@@ -73,11 +93,11 @@ export default function SortingHat({
         />
       )}
 
-      {/* Animated sparkles */}
+      {/* Ambient animated sparkles */}
       {showGlow && sparkles.map((sparkle) => (
         <motion.div
           key={sparkle.id}
-          className="absolute rounded-full bg-white"
+          className="absolute rounded-full bg-white pointer-events-none"
           style={{
             left: `${sparkle.x}%`,
             top: `${sparkle.y}%`,
@@ -99,9 +119,40 @@ export default function SortingHat({
         />
       ))}
 
+      {/* Click Burst Sparkles */}
+      {bursts.map((burst) => (
+        <div key={burst.id} className="absolute pointer-events-none" style={{ left: burst.x, top: burst.y }}>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute text-yellow-200"
+              initial={{ scale: 0, opacity: 1, x: 0, y: 0, rotate: 0 }}
+              animate={{
+                scale: [0, 1, 0],
+                opacity: [1, 0],
+                x: (Math.random() - 0.5) * 150,
+                y: (Math.random() - 0.5) * 150,
+                rotate: Math.random() * 360
+              }}
+              transition={{ duration: 1, ease: "easeOut" }}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+              </svg>
+            </motion.div>
+          ))}
+        </div>
+      ))}
+
       {/* Hat container with optional floating/bobbing motion */}
       <motion.div
-        className={`relative ${sizeClasses[size]} mx-auto z-10`}
+        className={`relative ${sizeClasses[size]} mx-auto z-10 pointer-events-none`}
         animate={isAnimating ? {
           y: [0, 20, 0, -20, 0],    // up/down motion
           x: [0, 10, 0, -10, 0],    // side sway
