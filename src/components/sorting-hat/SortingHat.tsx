@@ -29,11 +29,11 @@ export default function SortingHat({
   // Generate random sparkle positions
   const sparkles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    delay: Math.random() * 3,
-    duration: 2 + Math.random() * 2,
-    size: 2 + Math.random() * 3
+    x: Math.random() * 50,
+    y: Math.random() * 50,
+    delay: Math.random() * 10,
+    duration: 2 + Math.random() * 9,
+    size: 2 + Math.random() * 2
   }));
 
   return (

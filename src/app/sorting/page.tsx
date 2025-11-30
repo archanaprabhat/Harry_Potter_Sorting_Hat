@@ -73,9 +73,16 @@ export default function SortingPage() {
 
                 <div className="flex-1 flex flex-col items-center justify-center z-10">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: showHat ? 1 : 0, scale: showHat ? 1 : 0.8 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{
+                            opacity: showHat ? 1 : 0,
+                            scale: showHat ? [0, 2.5, 1] : 0
+                        }}
+                        transition={{
+                            duration: 2.5,
+                            times: [0, 0.6, 1],
+                            ease: "easeInOut"
+                        }}
                         className="flex flex-col items-center"
                     >
                         <SortingHat size="large" isAnimating={true} showGlow={true} />
