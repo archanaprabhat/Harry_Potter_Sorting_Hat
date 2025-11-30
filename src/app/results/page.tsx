@@ -235,6 +235,7 @@ function ResultsContent() {
   const sortedHouse = useSortedHouse();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [crestBase64, setCrestBase64] = useState<string | undefined>(undefined);
   const shareCardRef = useRef<HTMLDivElement>(null);
 
   // Redirect if no results
@@ -245,6 +246,22 @@ function ResultsContent() {
       // Play house-specific audio
       const audio = new Audio(`/audio/${sortedHouse}.mp3`);
       audio.play().catch(err => console.error("Error playing house audio:", err));
+
+      // Pre-load image as base64 for reliable screenshotting
+      const loadImageAsBase64 = async () => {
+        try {
+          const response = await fetch(`/images/${sortedHouse}_logo.png`);
+          const blob = await response.blob();
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setCrestBase64(reader.result as string);
+          };
+          reader.readAsDataURL(blob);
+        } catch (error) {
+          console.error("Error loading image as base64:", error);
+        }
+      };
+      loadImageAsBase64();
     }
   }, [sortedHouse, router]);
 
@@ -348,7 +365,7 @@ function ResultsContent() {
       {/* Hidden ShareCard for image generation */}
       <div style={{ position: 'fixed', left: '-9999px', top: 0, opacity: 0, pointerEvents: 'none' }}>
         <div ref={shareCardRef}>
-          <ShareCard house={sortedHouse} userName={userName} />
+          <ShareCard house={sortedHouse} userName={userName} crestDataUrl={crestBase64} />
         </div>
       </div>
     </div>

@@ -9,11 +9,12 @@ import { getHouseInfo } from "@/lib/sorting-logic";
 interface ShareCardProps {
     house: keyof typeof HOUSES;
     userName: string;
+    crestDataUrl?: string;
 }
 
-export default function ShareCard({ house, userName }: ShareCardProps) {
+export default function ShareCard({ house, userName, crestDataUrl }: ShareCardProps) {
     const houseInfo = getHouseInfo(house);
-    const logoPath = `/images/${house}_logo.png`;
+    const logoPath = crestDataUrl || `/images/${house}_logo.png`;
 
     return (
         <div
