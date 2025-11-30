@@ -50,6 +50,7 @@ export default function ShareCard({ house, userName }: ShareCardProps) {
                         fill
                         className="object-contain"
                         priority
+                        unoptimized
                     />
                 </div>
 

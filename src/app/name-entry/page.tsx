@@ -5,23 +5,14 @@ import { useState, KeyboardEvent, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-// Components
 import SortingHat from "@/components/sorting-hat/SortingHat";
 import MobileContainer from "@/components/layout/MobileContainer";
 import StarField from "@/components/effects/StarField";
 import GlobalControls from "@/components/layout/GlobalControls";
 
-// Zustand store hooks
 import { useSetUserName } from "@/lib/store";
 
-/* -------------------------------------------------------------------------- */
-/*                              Helper Components                             */
-/* -------------------------------------------------------------------------- */
 
-/**
- * ParchmentContainer
- * - Decorative parchment-styled wrapper for text content.
- */
 function ParchmentContainer({
   children,
   className = "",
@@ -36,11 +27,6 @@ function ParchmentContainer({
   );
 }
 
-/**
- * QuillInput
- * - Input field with a quill icon (left) and a sparkle (right).
- * - Handles error highlighting and disabled state.
- */
 function QuillInput({
   value,
   onChange,
@@ -56,12 +42,10 @@ function QuillInput({
 }) {
   return (
     <div className='relative'>
-      {/* Quill icon */}
       <div className='absolute left-4 top-1/2 transform -translate-y-1/2 z-10'>
         🪶
       </div>
 
-      {/* Input field */}
       <input
         type='text'
         placeholder='Etch your name with magic ink'
