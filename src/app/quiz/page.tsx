@@ -127,25 +127,18 @@ function QuizOptionCard({
         {option.image && (
           <div className="flex-shrink-0">
             <motion.div
-              className="relative rounded-full bg-amber-300/50 
-                        flex items-center justify-center border border-amber-500/30
-                        group-hover:bg-amber-400/60 transition-all duration-300"
+              className="relative rounded-full overflow-hidden transition-all duration-300"
               style={{
-                width: 'clamp(2rem, 5vw, 3rem)',
-                height: 'clamp(2rem, 5vw, 3rem)'
+                width: 'clamp(4rem, 5vw, 4rem)',
+                height: 'clamp(4rem, 5vw, 4rem)'
               }}
               whileHover={{ rotate: 15, scale: 1.1 }}
             >
               <Image
                 src={option.image}
                 alt=""
-                width={24}
-                height={24}
-                className="opacity-90 group-hover:opacity-100 transition-opacity"
-                style={{
-                  width: 'clamp(1rem, 2.5vw, 1.5rem)',
-                  height: 'clamp(1rem, 2.5vw, 1.5rem)'
-                }}
+                fill
+                className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
               />
             </motion.div>
           </div>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Cormorant_Garamond, IM_Fell_Great_Primer } from 'next/font/google'
 import './globals.css'
 import { AudioProvider } from "@/components/layout/AudioProvider";
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const cormorant = Cormorant_Garamond({
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${cormorant.variable} ${fell.variable} font-sans`}>
         <AudioProvider>
           {children}
+          <Analytics />
         </AudioProvider></body>
     </html>
   )

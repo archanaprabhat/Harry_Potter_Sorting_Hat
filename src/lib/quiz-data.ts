@@ -102,7 +102,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       {
         text: "Reading about ancient magic",
-        image: "/images/quiz/ancient-books.png",
+        image: "/images/quiz/ancient_books.png",
         points: { gryffindor: 2, slytherin: 3, hufflepuff: 2, ravenclaw: 10 }
       },
       {
